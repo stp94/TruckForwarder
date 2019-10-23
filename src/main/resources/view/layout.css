@@ -1,0 +1,169 @@
+
+
+
+    .MenuItem{
+        -fx-text-fill: #F4F4F4;
+    }
+
+    .tab {
+
+        -fx-background-color: #22252c;
+        -fx-font-family: "Caviar Dreams";
+        -fx-border-style: none;
+        -fx-font-size: 30px;
+
+
+
+        }
+                 .tab:selected{
+
+                -fx-focus-color:  transparent;
+                -fx-font-weight: bold;
+                     -fx-font-size: 40px;
+
+
+
+                }
+
+                .tab-header-background
+                {
+                    -fx-background-color: #22252c;
+
+
+                }
+                .tab-header
+                {-fx-border-color: red;}
+
+                .tab-label
+                {
+                    -fx-text-fill: #F4F4F4;
+                    -fx-font-family: "Miriam Mono CLM";
+
+
+
+                }
+
+                .table-view{
+
+                    -fx-font-size: 10px;
+
+                }
+
+    .TruckInfo
+    {
+        -fx-font-size: 15px;
+        -fx-background-color: transparent;
+
+
+    }
+
+                    .TruckInfo .content
+                    {
+                        -fx-background-color: #C0B3A0;
+                    }
+
+                    .TruckInfoLabels
+                    {
+                        -fx-font-size: 15px;
+                        -fx-background-color: transparent;
+                        -fx-font-weight: bold;
+
+
+                    }
+
+                    .TruckInfoLabels .content
+                    {
+                        -fx-background-color: #C0B3A0;
+                    }
+
+    .BuyBtn{
+
+        -fx-background-color: #22252c;
+        -fx-text-fill: white;
+        -fx-background-radius: 30px;
+        -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 20,0,0,1 );
+
+    }
+
+    .MainGameBox{
+
+        -fx-border-style: solid;
+    }
+
+    .MainGameButton{
+        -fx-background-color: #22252c;
+        -fx-text-fill: white;
+
+    }
+
+    .TruckProgressBar{
+        -fx-background-color: antiquewhite;
+    }
+
+    .RouteLabel{
+        -fx-text-fill: black;
+        -fx-label-padding: 10,10,10,10;
+    }
+
+    .RouteInfoLabels{
+        -fx-font-size: 20px;
+        -fx-background-color: transparent;}
+
+    .RouteInfoLabels .content
+    {
+        -fx-background-color: #C0B3A0;
+    }
+
+    .RouteDetailsArea{
+        -fx-font-size: 20px;
+        -fx-background-color: transparent;}
+
+
+    .RouteDetailsArea .content
+    {
+        -fx-background-color: #C0B3A0;
+    }
+
+
+    .city{
+        -fx-font-size: 20px;
+    }
+
+    .distance{
+        -fx-font-size: 20px;
+    }
+
+    .reward{
+        -fx-font-size: 20px;
+    }
+
+    .lp_truck{
+        -fx-font-size: 20px;
+    }
+
+    .minimize{
+        -fx-background-color: #22252c;
+        -fx-text-fill: #F4F4F4;
+    }
+
+
+    .creditbutton{
+        -fx-border-style: solid;
+        -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,0,1 );
+        -fx-background-radius: 30px;
+        -fx-border-radius: 30px;
+    }
+
+    .creditVBOX{
+        -fx-effect: dropshadow(three-pass-box , rgba(0,0,0,0.7) , 50,0,0,21 );
+    }
+
+    .routeVBOX{
+        -fx-effect: dropshadow(three-pass-box , rgba(0,0,0,0.7) , 30,0,0,1 );
+
+    }
+
+    .RouteDetailsLabel{
+        -fx-font-size: 24px;
+    }
+
