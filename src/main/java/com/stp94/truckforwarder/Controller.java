@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -15,7 +17,7 @@ import java.util.TimerTask;
 
 
 
-
+@Component
 public class Controller implements Initializable {
 
     private player NewPlayer = new player("Piotr", 130000, 1000); // Create a default player
