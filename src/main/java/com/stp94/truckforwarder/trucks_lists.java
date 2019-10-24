@@ -1,5 +1,14 @@
 package com.stp94.truckforwarder;
 
+import com.stp94.truckforwarder.database.poiXLSread;
+import org.apache.poi.POIDocument;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.springframework.boot.json.GsonJsonParser;
+import org.springframework.integration.support.json.JsonObjectMapper;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +20,7 @@ public class trucks_lists {
     private truck Tank = new truck("Tank", "u", 13.4, 2.55, 3.7, 34, 51, 45000);
     private truck TipCart = new truck("Tip-cart", "uw", 13.6, 2.45, 2.6, 25, 33, 45000);
 
+    private poiXLSread RouteDatabase = new poiXLSread();
 
     // Type of Trucks
 
@@ -28,6 +38,7 @@ public class trucks_lists {
     private route PoznanWarszawa = new route("Poznan", "Warszawa", "b", 330, 2.48, 3, 24, 38, 1250, "Automotive");
     private route LodzWarszawa = new route("Lodz", "Warszawa", "b", 150, 2.48, 2.8, 24, 13, 600, "Meble");
     private route KatowiceWarszawa = new route("Katowice", "Warszawa", "b", 330, 2.48, 3, 24, 38, 1200, "Art.Budowlane");
+
 
 
     //private route KrakowWarszawa = new route("Krakow","Warszawa","uw",)
