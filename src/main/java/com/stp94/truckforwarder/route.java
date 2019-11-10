@@ -12,9 +12,9 @@ public class route {
     double routeCashReward;
     String routeCategory;
 
-    public route(String routeSource, String routeDestinstion, String routeLoadType, long routeLength, double routeWidth, double routeHeight, double routeWeight, double routeCapacity, double routeCashReward, String routeCategory) {
+    public route(String routeSource, String routeDestination, String routeLoadType, long routeLength, double routeWidth, double routeHeight, double routeWeight, double routeCapacity, double routeCashReward, String routeCategory) {
         this.routeSource = routeSource;
-        this.routeDestination = routeDestinstion;
+        this.routeDestination = routeDestination;
         this.routeLoadType = routeLoadType;
         this.routeLength = routeLength;
         this.routeWidth = routeWidth;
@@ -54,8 +54,8 @@ public class route {
         return routeLength;
     }
 
-    public void setRouteLength(long routelength) {
-        this.routeLength = routelength;
+    public void setRouteLength(long routeLength) {
+        this.routeLength = routeLength;
     }
 
     public double getRouteWidth() {

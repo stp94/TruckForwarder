@@ -118,16 +118,6 @@ public class Controller implements Initializable {
     public Label NumberOfTruckLabel3 = new Label();  public Label SourceLabel3 = new Label();  public Label LengthLabel3 = new Label();  public Label CashRewardLabel3 = new Label();
     public Label NumberOfTruckLabel4 = new Label();  public Label SourceLabel4 = new Label();  public Label LengthLabel4 = new Label();  public Label CashRewardLabel4 = new Label();
     public Label NumberOfTruckLabel5 = new Label();  public Label SourceLabel5 = new Label();  public Label LengthLabel5 = new Label();  public Label CashRewardLabel5 = new Label();
-    public Label NumberOfTruckLabel6 = new Label();  public Label SourceLabel6 = new Label();  public Label LengthLabel6 = new Label();  public Label CashRewardLabel6 = new Label();
-    public Label NumberOfTruckLabel7 = new Label();  public Label SourceLabel7 = new Label();  public Label LengthLabel7 = new Label();  public Label CashRewardLabel7 = new Label();
-    public Label NumberOfTruckLabel8 = new Label();  public Label SourceLabel8 = new Label();  public Label LengthLabel8 = new Label();  public Label CashRewardLabel8 = new Label();
-    public Label NumberOfTruckLabel9 = new Label();  public Label SourceLabel9 = new Label();  public Label LengthLabel9 = new Label();  public Label CashRewardLabel9 = new Label();
-    public Label NumberOfTruckLabel10 = new Label();  public Label SourceLabel10 = new Label();  public Label LengthLabel10 = new Label();  public Label CashRewardLabel10 = new Label();
-    public Label DestinationLabel1 = new Label(); public Label DestinationLabel2 = new Label(); public Label DestinationLabel3 = new Label(); public Label DestinationLabel4 = new Label();
-    public Label DestinationLabel5 = new Label(); public Label DestinationLabel6 = new Label(); public Label DestinationLabel7 = new Label(); public Label DestinationLabel8 = new Label();
-    public Label DestinationLabel9 = new Label(); public Label DestinationLabel10 = new Label();
-
-
 
     public TableView<route> RoutesTable = new TableView<>();
     public TableColumn<route, String> SourceColumn = new TableColumn<>();
@@ -143,6 +133,7 @@ public class Controller implements Initializable {
 
 
 
+    public List<Label> SourcesLabel = new ArrayList<>(250);
 
 
     public ProgressBar ProgressBarTruck1 = new ProgressBar();
@@ -150,14 +141,17 @@ public class Controller implements Initializable {
     public ProgressBar ProgressBarTruck3 = new ProgressBar();
     public ProgressBar ProgressBarTruck4 = new ProgressBar();
     public ProgressBar ProgressBarTruck5 = new ProgressBar();
-    public ProgressBar ProgressBarTruck6 = new ProgressBar();
-    public ProgressBar ProgressBarTruck7 = new ProgressBar();
-    public ProgressBar ProgressBarTruck8 = new ProgressBar();
-    public ProgressBar ProgressBarTruck9 = new ProgressBar();
-    public ProgressBar ProgressBarTruck10 = new ProgressBar();
-
 
     private List<ProgressBar> Bars = new ArrayList<>();
+
+
+
+
+
+
+    public Label DestinationLabel1 = new Label(); public Label DestinationLabel2 = new Label(); public Label DestinationLabel3 = new Label(); public Label DestinationLabel4 = new Label();
+    public VBox RouteSlideVBox1 = new VBox(); public VBox RouteSlideVBox2 = new VBox(); public VBox RouteSlideVBox3 = new VBox(); public VBox RouteSlideVBox4 = new VBox(); public VBox RouteSlideVBox5 = new VBox();
+    public TextArea Route1Area = new TextArea();
 
 
 
@@ -373,7 +367,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTiltTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 10000) {
-            InfoMessage.setText("Bought: Tilt Truck ");
+            InfoMessage.setText("Bought: ");
             Library.BuyTruckTilt();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()-10000);
             TiltAmount++;
@@ -386,7 +380,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyStandardTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 35000) {
-            InfoMessage.setText("Bought: Standard Truck ");
+            InfoMessage.setText("Bought: ");
             Library.BuyTruckStandard();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 35000);
             StandardAmount++;
@@ -399,7 +393,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuySetTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 75000) {
-            InfoMessage.setText("Bought: Set Truck ");
+            InfoMessage.setText("Bought: ");
             Library.BuyTruckSet();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 75000);
             SetAmount++;
@@ -412,7 +406,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTankTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 45000) {
-            InfoMessage.setText("Bought: Tank Truck ");
+            InfoMessage.setText("Bought: ");
             Library.BuyTruckTank();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 45000);
             TankAmount++;
@@ -425,7 +419,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTipCartTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 45000) {
-            InfoMessage.setText("Bought: Tipper Truck ");
+            InfoMessage.setText("Bought: ");
             Library.BuyTruckTipCart();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 45000);
             TipCartAmount++;
@@ -442,11 +436,11 @@ public class Controller implements Initializable {
         if (creditstatus = true) {
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() + 15000);
             CheckStatusOfTrucks();
-            InfoMessage.setText("You got a loan");
+            InfoMessage.setText("Otrzymales kredyt");
             creditstatus = false;
 
         } else
-            InfoMessage.setText("You can't get a loan");
+            InfoMessage.setText("Niestety, nie mozesz otrzymac kredytu");
 
 
         return creditstatus = false;
@@ -461,6 +455,29 @@ public class Controller implements Initializable {
 
     }
 
+    @FXML
+    private void RoutesToTextArea1 (MouseEvent event)
+    {
+        RouteInfoLabel.setText(Library.ShowRoutesInfo(0));
+
+    }
+
+    @FXML
+    private void RoutesToTextArea2 (MouseEvent event)
+    {
+        RouteInfoLabel.setText(Library.ShowRoutesInfo(1));
+
+    }
+
+    @FXML
+    private void RoutesToTextArea3 (MouseEvent event)
+    {
+        RouteInfoLabel.setText(Library.ShowRoutesInfo(2));
+
+    }
+
+    @FXML
+    private void RoutesToTextArea4 (MouseEvent event)
     {
         RouteInfoLabel.setText(Library.ShowRoutesInfo(3));
 
@@ -512,6 +529,15 @@ public class Controller implements Initializable {
     private void FillRoutesTable()
     {
 
+
+
+
+
+
+
+
+
+
         SourceColumn.setCellValueFactory(new PropertyValueFactory<>("routeSource"));
         DestinationColumn.setCellValueFactory(new PropertyValueFactory<>("routeDestination"));
         LengthColumn.setCellValueFactory(new PropertyValueFactory<>("routeLength"));
@@ -524,12 +550,6 @@ public class Controller implements Initializable {
 
         RoutesTable.setItems(RoutesObservableList);
         RoutesTable.getColumns().addAll(SourceColumn,DestinationColumn,LengthColumn,CashRewardColumn,CategoryColumn);
-
-
-
-
-
-
 
 
 
@@ -575,6 +595,42 @@ public class Controller implements Initializable {
 
     }
 
+            @FXML private void RouteVBoxAnimationSlider1()
+            {
+                RouteSlideVBox1.setPrefHeight(200);
+            }
+
+            @FXML private void RouteVBoxAnimationSliderHide1() { RouteSlideVBox1.setPrefHeight(30);}
+
+            @FXML private void RouteVBoxAnimationSlider2()
+            {
+                RouteSlideVBox2.setPrefHeight(200);
+            }
+
+            @FXML private void RouteVBoxAnimationSliderHide2()
+            {
+                RouteSlideVBox2.setPrefHeight(30);
+            }
+
+            @FXML private void RouteVBoxAnimationSlider3()
+            {
+                RouteSlideVBox3.setPrefHeight(200);
+            }
+
+            @FXML private void RouteVBoxAnimationSliderHide3()
+            {
+                RouteSlideVBox3.setPrefHeight(30);
+            }
+
+            @FXML private void RouteVBoxAnimationSlider4()
+            {
+                RouteSlideVBox4.setPrefHeight(200);
+            }
+
+            @FXML private void RouteVBoxAnimationSliderHide4()
+            {
+                RouteSlideVBox4.setPrefHeight(30);
+            }
 
 
 
@@ -601,6 +657,10 @@ public class Controller implements Initializable {
                                         Platform.exit();
                                         System.exit(0);
                                     }
+
+
+
+
 
 
 

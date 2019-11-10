@@ -20,7 +20,7 @@ public class poiXLSread {
 
 
     String DBrouteSource;
-    String DBrouteDestination;
+    String DBrouteDestinstion;
     String DBrouteLoadType;
     double DBrouteLength;
     double DBrouteWidth;
@@ -85,7 +85,7 @@ public class poiXLSread {
                         }
 
                         if (currentCell.getColumnIndex() == 1) {
-                            DBrouteDestination = currentCell.getStringCellValue();
+                            DBrouteDestinstion = currentCell.getStringCellValue();
 
                         }
 
@@ -129,7 +129,7 @@ public class poiXLSread {
 
                         if (currentCell.getColumnIndex() == 9) {
                             DBrouteCategory = currentCell.getStringCellValue();
-                            RouteDBinArray.add(new route(DBrouteSource, DBrouteDestination, DBrouteLoadType,
+                            RouteDBinArray.add(new route(DBrouteSource, DBrouteDestinstion, DBrouteLoadType,
                                     (long) DBrouteLength, DBrouteWidth, DBrouteHeight, DBrouteWeight, DBrouteCapacity,
                                     DBrouteCashReward, DBrouteCategory));
 

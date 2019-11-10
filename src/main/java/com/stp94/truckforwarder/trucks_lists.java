@@ -126,35 +126,35 @@ public class trucks_lists {
 
     public String showTiltInfo() {
 
-        return "Tilt " + "\nBack" + "\n" + String.format("%.2f", Tilt.getTruckLength()) + "\n" + String.format("%.2f", Tilt.getTruckWidth()) + "\n"
+        return "Plandeka " + "\nTyl" + "\nDlugosc: " + String.format("%.2f", Tilt.getTruckLength()) + "\n" + String.format("%.2f", Tilt.getTruckWidth()) + "\n"
                 + String.format("%.2f", Tilt.getTruckHeight()) + "\n" + String.format("%.2f", Tilt.getTruckWeight()) + "\n" + String.format("%.2f", Tilt.getTruckCapacity()) + "\n";
 
     }
 
     public String showStandardInfo() {
 
-        return "Standard " + "\nBack,Side" + "\n" + String.format("%.2f", Standard.getTruckLength()) + "\n" + String.format("%.2f", Standard.getTruckWidth()) + "\n"
-                + String.format("%.2f", Standard.getTruckHeight()) + "\n" + String.format("%.2f", Standard.getTruckWeight()) + "\n" + String.format("%.2f", Standard.getTruckCapacity()) + "\n";
+        return "Standard " + "\nTyl, Bok" + "\n" + String.format("%.2f", Standard.getTruckLength()) + "\n" + String.format("%.2f", Standard.getTruckWidth()) + "\n"
+                + String.format("%.2f", Standard.getTruckHeight()) + "\n " + String.format("%.2f", Standard.getTruckWeight()) + "\n" + String.format("%.2f", Standard.getTruckCapacity()) + "\n";
 
     }
 
     public String showSetInfo() {
 
-        return "Set " + "\nBack" + "\n" + String.format("%.2f", Set.getTruckLength()) + "\n" + String.format("%.2f", Set.getTruckWidth()) + "\n"
+        return "Zestaw " + "\nTyl" + "\n" + String.format("%.2f", Set.getTruckLength()) + "\n" + String.format("%.2f", Set.getTruckWidth()) + "\n"
                 + String.format("%.2f", Set.getTruckHeight()) + "\n" + String.format("%.2f", Set.getTruckWeight()) + "\n" + String.format("%.2f", Set.getTruckCapacity()) + "\n";
 
     }
 
     public String showTankInfo() {
 
-        return "Tank " + "\nUp" + "\n" + String.format("%.2f", Tank.getTruckLength()) + "\n" + String.format("%.2f", Tank.getTruckWidth()) + "\n"
+        return "Cysterna " + "\nGora" + "\n" + String.format("%.2f", Tank.getTruckLength()) + "\n" + String.format("%.2f", Tank.getTruckWidth()) + "\n"
                 + String.format("%.2f", Tank.getTruckHeight()) + "\n" + String.format("%.2f", Tank.getTruckWeight()) + "\n" + String.format("%.2f", Tank.getTruckCapacity()) + "\n";
 
     }
 
     public String showTipCartInfo() {
 
-        return "Tipper " + "\nUp" + "\n" + String.format("%.2f", TipCart.getTruckLength()) + "\n" + String.format("%.2f", TipCart.getTruckWidth()) + "\n"
+        return "Wywrotka " + "\nGora" + "\n" + String.format("%.2f", TipCart.getTruckLength()) + "\n" + String.format("%.2f", TipCart.getTruckWidth()) + "\n"
                 + String.format("%.2f", TipCart.getTruckHeight()) + "\n" + String.format("%.2f", TipCart.getTruckWeight()) + "\n" + String.format("%.2f", TipCart.getTruckCapacity()) + "\n";
 
     }
@@ -167,7 +167,7 @@ public class trucks_lists {
 
 
     public String ShowRoutesInfo(int rIN) {
-        return "Lenght: " + AvailableRoutes.get(rIN).routeLength + "km     " +
+        return "Length: " + AvailableRoutes.get(rIN).routeLength + "km     " +
                 "Capacity: " + AvailableRoutes.get(rIN).routeCapacity + "l     " +
                 "Height: " + AvailableRoutes.get(rIN).routeHeight + "m     " +
                 "Width: " + AvailableRoutes.get(rIN).routeWidth + "m     " +
@@ -208,8 +208,6 @@ public class trucks_lists {
 
 
     public List<com.stp94.truckforwarder.route> GetAvailableRoutes()
-
-
     {
         return AvailableRoutes;
     }
