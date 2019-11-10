@@ -51,7 +51,7 @@
 
     .TruckInfo
     {
-        -fx-font-size: 15px;
+        -fx-font-size: 30px;
         -fx-background-color: transparent;
 
 
@@ -165,5 +165,18 @@
 
     .RouteDetailsLabel{
         -fx-font-size: 24px;
+    }
+
+    .TableColumn
+    {
+
+
+
+
+        -fx-size: 50px ;
+        -fx-background-color:  #C0B3A0;
+        -fx-font-size: 24px;
+        -fx-size: 28px;
+        -fx-border-color: #a49176;
     }
 

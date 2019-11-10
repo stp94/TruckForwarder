@@ -20,9 +20,9 @@ public class poiXLSread {
 
 
     String DBrouteSource;
-    String DBrouteDestinstion;
+    String DBrouteDestination;
     String DBrouteLoadType;
-    double DBrouteLenght;
+    double DBrouteLength;
     double DBrouteWidth;
     double DBrouteHeight;
     double DBrouteWeight;
@@ -85,7 +85,7 @@ public class poiXLSread {
                         }
 
                         if (currentCell.getColumnIndex() == 1) {
-                            DBrouteDestinstion = currentCell.getStringCellValue();
+                            DBrouteDestination = currentCell.getStringCellValue();
 
                         }
 
@@ -97,7 +97,7 @@ public class poiXLSread {
 
 
                         if (currentCell.getColumnIndex() == 3) {
-                            DBrouteLenght = currentCell.getNumericCellValue();
+                            DBrouteLength = currentCell.getNumericCellValue();
 
                         }
 
@@ -129,8 +129,8 @@ public class poiXLSread {
 
                         if (currentCell.getColumnIndex() == 9) {
                             DBrouteCategory = currentCell.getStringCellValue();
-                            RouteDBinArray.add(new route(DBrouteSource, DBrouteDestinstion, DBrouteLoadType,
-                                    (long) DBrouteLenght, DBrouteWidth, DBrouteHeight, DBrouteWeight, DBrouteCapacity,
+                            RouteDBinArray.add(new route(DBrouteSource, DBrouteDestination, DBrouteLoadType,
+                                    (long) DBrouteLength, DBrouteWidth, DBrouteHeight, DBrouteWeight, DBrouteCapacity,
                                     DBrouteCashReward, DBrouteCategory));
 
                         }
@@ -147,7 +147,7 @@ public class poiXLSread {
             e.printStackTrace();
         }
 
-        System.out.println(RouteDBinArray.get(46).getRouteLenght()); // Pobieramy sobie RouteDestination z 50 pozycji :)
+        System.out.println(RouteDBinArray.get(46).getRouteLength()); // Pobieramy sobie RouteDestination z 50 pozycji :)
 
 
 

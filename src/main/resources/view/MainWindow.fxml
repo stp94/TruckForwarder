@@ -8,6 +8,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -118,7 +120,7 @@
                                                    </padding></Label>
                                                 <Label fx:id="ActiveSourceLabel1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="138.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
                                                 <Label fx:id="DestinationLabel1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
-                                                <Label fx:id="LengthLabel1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="85" />
+                                                <Label fx:id="LengthLabel1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
                                                 <Label fx:id="CashRewardLabel1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
                                                 <ProgressBar fx:id="ProgressBarTruck1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="167.0" progress="0.0" style="-fx-control-inner-background: transparent; -fx-progress-color: white;" />
                                              </children>
@@ -131,7 +133,7 @@
                                                    </padding></Label>
                                                 <Label fx:id="SourceLabel2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="136.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
                                                 <Label fx:id="DestinationLabel2" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" textOverrun="CLIP" />
-                                                <Label fx:id="LengthLabel2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="85" />
+                                                <Label fx:id="LengthLabel2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
                                                 <Label fx:id="CashRewardLabel2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
                                                 <ProgressBar fx:id="ProgressBarTruck2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
                                              </children>
@@ -143,10 +145,108 @@
                                                       <Insets left="5.0" />
                                                    </padding></Label>
                                                 <Label fx:id="SourceLabel3" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
-                                                <Label fx:id="DestinationLabel3" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Krakow" />
-                                                <Label fx:id="LengthLabel3" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="85" />
+                                                <Label fx:id="DestinationLabel3" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="LengthLabel3" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
                                                 <Label fx:id="CashRewardLabel3" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
                                                 <ProgressBar fx:id="ProgressBarTruck3" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="173.0" prefHeight="54.0" prefWidth="665.0">
+                                             <children>
+                                                <Label fx:id="NumberOfTruckLabel4" prefHeight="30.0" prefWidth="40.0" style="-fx-font-size: 20px;" styleClass="lp_truck" text="4">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="SourceLabel4" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="DestinationLabel4" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="LengthLabel4" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
+                                                <Label fx:id="CashRewardLabel4" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
+                                                <ProgressBar fx:id="ProgressBarTruck4" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="227.0" prefHeight="54.0" prefWidth="665.0">
+                                             <children>
+                                                <Label fx:id="NumberOfTruckLabel5" prefHeight="30.0" prefWidth="40.0" style="-fx-font-size: 20px;" styleClass="lp_truck" text="5">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="SourceLabel5" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="DestinationLabel5" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="LengthLabel5" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
+                                                <Label fx:id="CashRewardLabel5" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
+                                                <ProgressBar fx:id="ProgressBarTruck5" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="281.0" prefHeight="54.0" prefWidth="665.0">
+                                             <children>
+                                                <Label fx:id="NumberOfTruckLabel6" prefHeight="30.0" prefWidth="40.0" style="-fx-font-size: 20px;" styleClass="lp_truck" text="6">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="SourceLabel6" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="DestinationLabel6" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="LengthLabel6" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
+                                                <Label fx:id="CashRewardLabel6" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
+                                                <ProgressBar fx:id="ProgressBarTruck6" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="335.0" prefHeight="54.0" prefWidth="665.0">
+                                             <children>
+                                                <Label fx:id="NumberOfTruckLabel7" prefHeight="30.0" prefWidth="40.0" style="-fx-font-size: 20px;" styleClass="lp_truck" text="7">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="SourceLabel7" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="DestinationLabel7" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="LengthLabel7" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
+                                                <Label fx:id="CashRewardLabel7" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
+                                                <ProgressBar fx:id="ProgressBarTruck7" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="389.0" prefHeight="54.0" prefWidth="665.0">
+                                             <children>
+                                                <Label fx:id="NumberOfTruckLabel8" prefHeight="30.0" prefWidth="40.0" style="-fx-font-size: 20px;" styleClass="lp_truck" text="8">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="SourceLabe8" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="DestinationLabel8" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="LengthLabel8" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
+                                                <Label fx:id="CashRewardLabel8" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
+                                                <ProgressBar fx:id="ProgressBarTruck8" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="443.0" prefHeight="54.0" prefWidth="665.0">
+                                             <children>
+                                                <Label fx:id="NumberOfTruckLabel9" prefHeight="30.0" prefWidth="40.0" style="-fx-font-size: 20px;" styleClass="lp_truck" text="9">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="SourceLabel9" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="DestinationLabel9" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="LengthLabel9" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
+                                                <Label fx:id="CashRewardLabel9" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
+                                                <ProgressBar fx:id="ProgressBarTruck9" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                             </children>
+                                          </HBox>
+                                          <HBox layoutX="10.0" layoutY="497.0" prefHeight="54.0" prefWidth="665.0">
+                                             <children>
+                                                <Label fx:id="NumberOfTruckLabel10" prefHeight="30.0" prefWidth="40.0" style="-fx-font-size: 20px;" styleClass="lp_truck" text="10">
+                                                   <padding>
+                                                      <Insets left="5.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label fx:id="SourceLabel10" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="DestinationLabel10" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" text="Random" />
+                                                <Label fx:id="LengthLabel10" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" text="00" />
+                                                <Label fx:id="CashRewardLabel10" prefHeight="30.0" prefWidth="65.0" style="-fx-font-size: 20px;" styleClass="reward" text="\$200" />
+                                                <ProgressBar fx:id="ProgressBarTruck10" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="170.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -159,269 +259,84 @@
             </content>
           </Tab>
           <Tab text="Routes">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #C0B3A0;">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="209.0" prefWidth="600.0" style="-fx-background-color: #C0B3A0;">
                      <children>
-                        <ScrollPane prefHeight="595.0" prefWidth="1200.0" style="-fx-background: #988c7a; -fx-border-radius: 10px;">
-                           <content>
-                              <VBox onMouseEntered="#RouteVBoxAnimationSlider1" onMouseExited="#RouteVBoxAnimationSliderHide1" prefHeight="581.0" prefWidth="1198.0" style="-fx-background-color: #988c7a;">
-                                 <children>
-                                    <VBox fx:id="RouteSlideVBox1" minHeight="70.0" onMouseEntered="#RouteVBoxAnimationSlider1" onMouseExited="#RouteVBoxAnimationSliderHide1" prefHeight="70.0" prefWidth="100.0" style="-fx-background-color: grey;" styleClass="routeVBOX">
-                                       <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Label fx:id="SourceLabel1" prefHeight="45.0" prefWidth="250.0" text="Krakow" />
-                                                <Label fx:id="DestinationLabel1" prefWidth="250.0" text="Katowice" translateX="30.0" />
-                                                <Label fx:id="LengthLabel1" prefHeight="45.0" prefWidth="200.0" text="Label" translateX="150.0" />
-                                                <Label fx:id="CashRewardLabel1" prefWidth="250.0" text="Label" translateX="200.0" />
-                                             </children></HBox>
-                                          <HBox minHeight="50.0" prefHeight="50.0" prefWidth="200.0" translateY="10.0">
-                                             <children>
-                                                <Label fx:id="InfoRoute1" styleClass="RouteDetailsLabel" text="Label" />
-                                             </children></HBox>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <ImageView fitHeight="60.0" fitWidth="80.0" onMouseClicked="#SetActiveTruck" pickOnBounds="true" preserveRatio="true" translateY="8.0">
-                                                   <image>
-                                                      <Image url="@tracktilt.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@trackstandard.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="150.0" layoutX="60.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@set.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="100.0" layoutX="110.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="15.0">
-                                                   <image>
-                                                      <Image url="@tracktunk.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="100.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@tipcart.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="RouteSlideVBox2" layoutX="10.0" layoutY="10.0" minHeight="70.0" onMouseEntered="#RouteVBoxAnimationSlider2" onMouseExited="#RouteVBoxAnimationSliderHide2" prefHeight="70.0" prefWidth="100.0" style="-fx-background-color: grey;" styleClass="routeVBOX">
-                                       <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Label fx:id="SourceLabel2" prefWidth="250.0" text="Krakow" />
-                                                <Label fx:id="DestinationLabel2" prefWidth="250.0" text="Katowice" translateX="30.0" />
-                                                <Label fx:id="LengthLabel2" prefHeight="45.0" prefWidth="200.0" text="Label" translateX="150.0" />
-                                                <Label fx:id="CashRewardLabel2" prefWidth="200.0" text="Label" translateX="200.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox minHeight="50.0" prefHeight="100.0" prefWidth="200.0" translateY="10.0">
-                                             <children>
-                                                <Label fx:id="InfoRoute2" styleClass="RouteDetailsLabel" text="Label" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <ImageView fitHeight="60.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" translateY="8.0">
-                                                   <image>
-                                                      <Image url="@tracktilt.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@trackstandard.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="150.0" layoutX="60.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@set.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="100.0" layoutX="110.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="15.0">
-                                                   <image>
-                                                      <Image url="@tracktunk.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="100.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@tipcart.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="RouteSlideVBox3" layoutX="10.0" layoutY="100.0" minHeight="70.0" onMouseEntered="#RouteVBoxAnimationSlider3" onMouseExited="#RouteVBoxAnimationSliderHide3" prefHeight="70.0" prefWidth="100.0" style="-fx-background-color: grey;" styleClass="routeVBOX">
-                                       <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Label fx:id="SourceLabel3" prefWidth="250.0" text="Krakow" />
-                                                <Label fx:id="DestinationLabel3" prefWidth="250.0" text="Katowice" translateX="30.0" />
-                                                <Label fx:id="LengthLabel3" prefWidth="200.0" text="Label" translateX="150.0" />
-                                                <Label fx:id="CashRewardLabel3" prefWidth="200.0" text="Label" translateX="200.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="50.0" prefWidth="200.0" translateY="10.0">
-                                             <children>
-                                                <Label fx:id="InfoRoute3" styleClass="RouteDetailsLabel" text="Label" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <ImageView fitHeight="60.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" translateY="8.0">
-                                                   <image>
-                                                      <Image url="@tracktilt.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@trackstandard.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="150.0" layoutX="60.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@set.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="100.0" layoutX="110.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="15.0">
-                                                   <image>
-                                                      <Image url="@tracktunk.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                                <ImageView fitHeight="120.0" fitWidth="100.0" layoutX="160.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" translateY="10.0">
-                                                   <image>
-                                                      <Image url="@tipcart.png" />
-                                                   </image>
-                                                   <HBox.margin>
-                                                      <Insets right="15.0" />
-                                                   </HBox.margin>
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ImageView>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                    <VBox fx:id="RouteSlideVBox4" layoutX="10.0" layoutY="100.0" minHeight="70.0" onMouseEntered="#RouteVBoxAnimationSlider4" onMouseExited="#RouteVBoxAnimationSliderHide4" prefHeight="70.0" prefWidth="100.0" style="-fx-background-color: grey;" styleClass="routeVBOX">
-                                       <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Label fx:id="SourceLabel4" prefWidth="250.0" text="Krakow" />
-                                                <Label fx:id="DestinationLabel4" prefWidth="250.0" text="Katowice" translateX="30.0" />
-                                                <Label fx:id="LengthLabel4" prefWidth="200.0" text="Label" translateX="150.0" />
-                                                <Label fx:id="CashRewardLabel4" prefWidth="200.0" text="Label" translateX="200.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox prefHeight="50.0" prefWidth="200.0" translateY="10.0">
-                                             <children>
-                                                <Label fx:id="InfoRoute4" styleClass="RouteDetailsLabel" text="Label" />
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </VBox>
-                           </content>
-                        </ScrollPane>
-                     </children></AnchorPane>
-            </content>
+                        <TableView fx:id="RoutesTable" prefHeight="600.0" prefWidth="1000.0">
+                           <columns>
+                              <TableColumn fx:id="SourceColumn" prefWidth="203.0" style="-fx-size: 28px; -fx-font-size: 24px;" styleClass="TableColumn" text="Source" />
+                              <TableColumn fx:id="DestinationColumn" prefWidth="225.0" styleClass="TableColumn" text="Destination" />
+                              <TableColumn fx:id="LengthColumn" prefWidth="179.0" styleClass="TableColumn" text="Length(km)" />
+                              <TableColumn fx:id="CashRewardColumn" prefWidth="212.0" styleClass="TableColumn" text="Cash Reward($)" />
+                              <TableColumn fx:id="CategoryColumn" minWidth="0.0" prefWidth="180.0" styleClass="TableColumn" text="Category" />
+                           </columns>
+                        </TableView>
+                        <VBox layoutX="1000.0" layoutY="36.0" prefHeight="546.0" prefWidth="198.0">
+                           <children>
+                              <ImageView fitHeight="80.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@tracktilt.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@trackstandard.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@set.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@tracktunk.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@tipcart.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
           </Tab>
             <Tab text="Market">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #C0B3A0;">
                      <children>
-                        <TextArea fx:id="ShowTruckDetailsInfo" editable="false" layoutX="1000.0" layoutY="10.0" prefHeight="187.0" prefWidth="150.0" styleClass="TruckInfo" />
-                        <TextArea fx:id="ShowTruckLabels" editable="false" layoutX="900.0" layoutY="10.0" prefHeight="187.0" prefWidth="105.0" styleClass="TruckInfoLabels" text="Nazwa: Ladowanie: Dlugosc: Szerokosc: Wysokosc: Waga: Pojemnosc:" wrapText="true" />
+                        <TextArea fx:id="ShowTruckDetailsInfo" editable="false" layoutX="900.0" layoutY="10.0" prefHeight="420.0" prefWidth="290.0" styleClass="TruckInfo" />
+                        <TextArea fx:id="ShowTruckLabels" editable="false" layoutX="676.0" layoutY="10.0" prefHeight="485.0" prefWidth="217.0" style="-fx-font-size: 30px;" styleClass="TruckInfoLabels" text="Name: &#10;Load Type: &#10;Length: &#10;Width: &#10;Height: &#10;Weight: &#10;Capacity:" wrapText="true" />
                         <Button fx:id="BuyTilt" layoutX="350.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#BuyTiltTruck" styleClass="BuyBtn" text="Buy">
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -546,15 +461,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Help">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="209.0" prefWidth="600.0" style="-fx-background-color: #C0B3A0;">
-                     <children>
-                        <Button layoutX="317.0" layoutY="52.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="77.0" text="Button" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
+            <Tab text="Help" />
         </tabs>
          <cursor>
             <Cursor fx:constant="DEFAULT" />

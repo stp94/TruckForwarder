@@ -2,9 +2,9 @@ package com.stp94.truckforwarder;
 
 public class route {
     String routeSource;
-    String routeDestinstion;
+    String routeDestination;
     String routeLoadType;
-    long   routeLenght;
+    long   routeLength;
     double routeWidth;
     double routeHeight;
     double routeWeight;
@@ -12,11 +12,11 @@ public class route {
     double routeCashReward;
     String routeCategory;
 
-    public route(String routeSource, String routeDestinstion, String routeLoadType, long routeLenght, double routeWidth, double routeHeight, double routeWeight, double routeCapacity, double routeCashReward, String routeCategory) {
+    public route(String routeSource, String routeDestinstion, String routeLoadType, long routeLength, double routeWidth, double routeHeight, double routeWeight, double routeCapacity, double routeCashReward, String routeCategory) {
         this.routeSource = routeSource;
-        this.routeDestinstion = routeDestinstion;
+        this.routeDestination = routeDestinstion;
         this.routeLoadType = routeLoadType;
-        this.routeLenght = routeLenght;
+        this.routeLength = routeLength;
         this.routeWidth = routeWidth;
         this.routeHeight = routeHeight;
         this.routeWeight = routeWeight;
@@ -34,12 +34,12 @@ public class route {
         this.routeSource = routeSource;
     }
 
-    public String getRouteDestinstion() {
-        return routeDestinstion;
+    public String getRouteDestination() {
+        return routeDestination;
     }
 
-    public void setRouteDestinstion(String routeDestinstion) {
-        this.routeDestinstion = routeDestinstion;
+    public void setRouteDestination(String routeDestination) {
+        this.routeDestination = routeDestination;
     }
 
     public String getRouteLoadType() {
@@ -50,12 +50,12 @@ public class route {
         this.routeLoadType = routeLoadType;
     }
 
-    public double getRouteLenght() {
-        return routeLenght;
+    public double getRouteLength() {
+        return routeLength;
     }
 
-    public void setRouteLenght(long routeLenght) {
-        this.routeLenght = routeLenght;
+    public void setRouteLength(long routelength) {
+        this.routeLength = routelength;
     }
 
     public double getRouteWidth() {

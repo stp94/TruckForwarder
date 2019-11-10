@@ -1,9 +1,11 @@
 package com.stp94.truckforwarder;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +20,9 @@ public class MainFX extends Application {
     private Parent root;
     boolean gamestatus=true;
     int x=0;
+
+    private static double xOffset = 0;
+    private static double yOffset = 0;
 
 
 
@@ -34,7 +39,11 @@ public class MainFX extends Application {
 
 
 
+
+
     }
+
+
 
     public void init() throws  Exception{
         springContext = SpringApplication.run(MainFX.class);

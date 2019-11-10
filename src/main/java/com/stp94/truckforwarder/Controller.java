@@ -1,20 +1,26 @@
 package com.stp94.truckforwarder;
 
 
+import com.stp94.truckforwarder.database.poiXLSread;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
+import javax.xml.transform.Source;
+import java.util.*;
 
 
 @Component
@@ -36,12 +42,18 @@ public class Controller implements Initializable {
     private long hourBar=0;
     double progressPercent=0.0;
 
+    private static double xOffset = 0;
+    private static double yOffset = 0;
+
     //  /\  variables to Timer - working
 
 
     trucks_lists Library = new trucks_lists(); // trucks_lists Could be change name to more "global" class
 
+
     // \/ GuiElementsDefinitions
+
+    public BorderPane MainBP = new BorderPane();
 
 
     public Label TiltLabelAmount = new Label();
@@ -50,6 +62,7 @@ public class Controller implements Initializable {
     public Label TankLabelAmount = new Label();
     public Label TipCartLabelAmount = new Label();
     public Label AmountLabel = new Label();
+
     //public Label ShowTruckLabels = new Label();
 
     public Label Route1=new Label();
@@ -105,22 +118,49 @@ public class Controller implements Initializable {
     public Label NumberOfTruckLabel3 = new Label();  public Label SourceLabel3 = new Label();  public Label LengthLabel3 = new Label();  public Label CashRewardLabel3 = new Label();
     public Label NumberOfTruckLabel4 = new Label();  public Label SourceLabel4 = new Label();  public Label LengthLabel4 = new Label();  public Label CashRewardLabel4 = new Label();
     public Label NumberOfTruckLabel5 = new Label();  public Label SourceLabel5 = new Label();  public Label LengthLabel5 = new Label();  public Label CashRewardLabel5 = new Label();
+    public Label NumberOfTruckLabel6 = new Label();  public Label SourceLabel6 = new Label();  public Label LengthLabel6 = new Label();  public Label CashRewardLabel6 = new Label();
+    public Label NumberOfTruckLabel7 = new Label();  public Label SourceLabel7 = new Label();  public Label LengthLabel7 = new Label();  public Label CashRewardLabel7 = new Label();
+    public Label NumberOfTruckLabel8 = new Label();  public Label SourceLabel8 = new Label();  public Label LengthLabel8 = new Label();  public Label CashRewardLabel8 = new Label();
+    public Label NumberOfTruckLabel9 = new Label();  public Label SourceLabel9 = new Label();  public Label LengthLabel9 = new Label();  public Label CashRewardLabel9 = new Label();
+    public Label NumberOfTruckLabel10 = new Label();  public Label SourceLabel10 = new Label();  public Label LengthLabel10 = new Label();  public Label CashRewardLabel10 = new Label();
+    public Label DestinationLabel1 = new Label(); public Label DestinationLabel2 = new Label(); public Label DestinationLabel3 = new Label(); public Label DestinationLabel4 = new Label();
+    public Label DestinationLabel5 = new Label(); public Label DestinationLabel6 = new Label(); public Label DestinationLabel7 = new Label(); public Label DestinationLabel8 = new Label();
+    public Label DestinationLabel9 = new Label(); public Label DestinationLabel10 = new Label();
+
+
+
+    public TableView<route> RoutesTable = new TableView<>();
+    public TableColumn<route, String> SourceColumn = new TableColumn<>();
+    public TableColumn<route, String> DestinationColumn = new TableColumn<>();
+    public TableColumn<route, String> LoadTypeColumn = new TableColumn<>();
+    public TableColumn<route, String> LengthColumn = new TableColumn<>();
+    public TableColumn<route, String> WidthColumn = new TableColumn<>();
+    public TableColumn<route, String> HeightColumn = new TableColumn<>();
+    public TableColumn<route, String> WeightColumn = new TableColumn<>();
+    public TableColumn<route, String> CapacityColumn = new TableColumn<>();
+    public TableColumn<route, String> CashRewardColumn = new TableColumn<>();
+    public TableColumn<route, String> CategoryColumn = new TableColumn<>();
+
+
+
+
 
     public ProgressBar ProgressBarTruck1 = new ProgressBar();
     public ProgressBar ProgressBarTruck2 = new ProgressBar();
     public ProgressBar ProgressBarTruck3 = new ProgressBar();
     public ProgressBar ProgressBarTruck4 = new ProgressBar();
     public ProgressBar ProgressBarTruck5 = new ProgressBar();
+    public ProgressBar ProgressBarTruck6 = new ProgressBar();
+    public ProgressBar ProgressBarTruck7 = new ProgressBar();
+    public ProgressBar ProgressBarTruck8 = new ProgressBar();
+    public ProgressBar ProgressBarTruck9 = new ProgressBar();
+    public ProgressBar ProgressBarTruck10 = new ProgressBar();
+
 
     private List<ProgressBar> Bars = new ArrayList<>();
 
 
 
-
-
-    public Label DestinationLabel1 = new Label(); public Label DestinationLabel2 = new Label(); public Label DestinationLabel3 = new Label(); public Label DestinationLabel4 = new Label();
-    public VBox RouteSlideVBox1 = new VBox(); public VBox RouteSlideVBox2 = new VBox(); public VBox RouteSlideVBox3 = new VBox(); public VBox RouteSlideVBox4 = new VBox(); public VBox RouteSlideVBox5 = new VBox();
-    public TextArea Route1Area = new TextArea();
 
     // /\ GuiElementsDefinitions
 
@@ -139,6 +179,7 @@ public class Controller implements Initializable {
         playerName.setText(NewPlayer.getPlayer_Name());
         playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash()));
         playerRespect.setText(String.format("%.2f", NewPlayer.getPlayer_Respect()));
+
         Library.GenerateAvailableRoutes();
         PrepareBars();
         ShowRoutes();
@@ -147,6 +188,7 @@ public class Controller implements Initializable {
         ShowTruckLabels.setVisible(false);
         SetTrucksMainPanel();
         MainGameTimer.run();
+        FillRoutesTable();
 
 
     }
@@ -268,6 +310,7 @@ public class Controller implements Initializable {
 
 
 
+
     @FXML
     private void ShowTiltPrice(MouseEvent event) {
         ShowTruckDetailsInfo.setText(Library.showTiltInfo());
@@ -330,7 +373,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTiltTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 10000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought: Tilt Truck ");
             Library.BuyTruckTilt();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()-10000);
             TiltAmount++;
@@ -343,7 +386,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyStandardTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 35000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought: Standard Truck ");
             Library.BuyTruckStandard();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 35000);
             StandardAmount++;
@@ -356,7 +399,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuySetTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 75000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought: Set Truck ");
             Library.BuyTruckSet();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 75000);
             SetAmount++;
@@ -369,7 +412,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTankTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 45000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought: Tank Truck ");
             Library.BuyTruckTank();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 45000);
             TankAmount++;
@@ -382,7 +425,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTipCartTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 45000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought: Tipper Truck ");
             Library.BuyTruckTipCart();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 45000);
             TipCartAmount++;
@@ -399,11 +442,11 @@ public class Controller implements Initializable {
         if (creditstatus = true) {
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() + 15000);
             CheckStatusOfTrucks();
-            InfoMessage.setText("Otrzymales kredyt");
+            InfoMessage.setText("You got a loan");
             creditstatus = false;
 
         } else
-            InfoMessage.setText("Niestety, nie mozesz otrzymac kredytu");
+            InfoMessage.setText("You can't get a loan");
 
 
         return creditstatus = false;
@@ -418,29 +461,6 @@ public class Controller implements Initializable {
 
     }
 
-    @FXML
-    private void RoutesToTextArea1 (MouseEvent event)
-    {
-        RouteInfoLabel.setText(Library.ShowRoutesInfo(0));
-
-    }
-
-    @FXML
-    private void RoutesToTextArea2 (MouseEvent event)
-    {
-        RouteInfoLabel.setText(Library.ShowRoutesInfo(1));
-
-    }
-
-    @FXML
-    private void RoutesToTextArea3 (MouseEvent event)
-    {
-        RouteInfoLabel.setText(Library.ShowRoutesInfo(2));
-
-    }
-
-    @FXML
-    private void RoutesToTextArea4 (MouseEvent event)
     {
         RouteInfoLabel.setText(Library.ShowRoutesInfo(3));
 
@@ -465,6 +485,9 @@ public class Controller implements Initializable {
     private void ShowRoutes()
     {
 
+
+
+
         Route1.setText(Library.ShowRoutesInfo(0));
         Route2.setText(Library.ShowRoutesInfo(1));
         Route3.setText(Library.ShowRoutesInfo(2));
@@ -485,24 +508,66 @@ public class Controller implements Initializable {
 
     }
 
+
+    private void FillRoutesTable()
+    {
+
+        SourceColumn.setCellValueFactory(new PropertyValueFactory<>("routeSource"));
+        DestinationColumn.setCellValueFactory(new PropertyValueFactory<>("routeDestination"));
+        LengthColumn.setCellValueFactory(new PropertyValueFactory<>("routeLength"));
+        CashRewardColumn.setCellValueFactory(new PropertyValueFactory<>("routeCashReward"));
+        CategoryColumn.setCellValueFactory(new PropertyValueFactory<>("routeCategory"));
+
+        ObservableList<route> RoutesObservableList = FXCollections.observableArrayList(Library.GetAvailableRoutes());
+
+
+
+        RoutesTable.setItems(RoutesObservableList);
+        RoutesTable.getColumns().addAll(SourceColumn,DestinationColumn,LengthColumn,CashRewardColumn,CategoryColumn);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
     private void SetTrucksMainPanel()
     {
         NumberOfTruckLabel1.setText("1");
         SourceLabel1.setText(Library.GetSource(0));
         DestinationLabel1.setText(Library.GetDestination(0));
-        LengthLabel1.setText(String.format("%d",Library.GetLenght(0)) + "km");
+        LengthLabel1.setText(String.format("%d",Library.GetLength(0)) + "km");
         CashRewardLabel1.setText("$" + String.format("%s",Library.GetReward(0)));
 
         NumberOfTruckLabel2.setText("2");
         SourceLabel2.setText(Library.GetSource(1));
         DestinationLabel2.setText(Library.GetDestination(1));
-        LengthLabel2.setText(String.format("%d",Library.GetLenght(1)) + "km");
+        LengthLabel2.setText(String.format("%d",Library.GetLength(1)) + "km");
         CashRewardLabel2.setText("$" +  String.format("%s",Library.GetReward(1)));
 
         NumberOfTruckLabel3.setText("3");
         SourceLabel3.setText(Library.GetSource(2));
         DestinationLabel3.setText(Library.GetDestination(2));
-        LengthLabel3.setText(String.format("%d",Library.GetLenght(2)) + "km");
+        LengthLabel3.setText(String.format("%d",Library.GetLength(2)) + "km");
         CashRewardLabel3.setText("$" + String.format("%s",Library.GetReward(2)));
 
 
@@ -510,70 +575,32 @@ public class Controller implements Initializable {
 
     }
 
-    @FXML private void RouteVBoxAnimationSlider1()
-    {
-        RouteSlideVBox1.setPrefHeight(200);
-    }
-
-            @FXML private void RouteVBoxAnimationSliderHide1() { RouteSlideVBox1.setPrefHeight(30);}
-
-            @FXML private void RouteVBoxAnimationSlider2()
-            {
-                RouteSlideVBox2.setPrefHeight(200);
-            }
-
-            @FXML private void RouteVBoxAnimationSliderHide2()
-            {
-                RouteSlideVBox2.setPrefHeight(30);
-            }
-
-            @FXML private void RouteVBoxAnimationSlider3()
-            {
-                RouteSlideVBox3.setPrefHeight(200);
-            }
-
-            @FXML private void RouteVBoxAnimationSliderHide3()
-            {
-                RouteSlideVBox3.setPrefHeight(30);
-            }
-
-            @FXML private void RouteVBoxAnimationSlider4()
-            {
-                RouteSlideVBox4.setPrefHeight(200);
-            }
-
-            @FXML private void RouteVBoxAnimationSliderHide4()
-            {
-                RouteSlideVBox4.setPrefHeight(30);
-            }
-
-                @FXML private void SetActiveTruck()
-                {
-                    Library.SelectedTruckTilt();
-                    Library.ShowRoutesInfo(0);
-                    StartRoute.run();
 
 
 
-                }
-
-                @FXML private void ProgressBarTruck()
-                {
-
-                    ProgressBarTruck1.setProgress(Library.GetLenght(0));
-
-                }
-
-                    @FXML
-                    private void Exit()
-                    {
-                        Platform.exit();
-                        System.exit(0);
-                    }
+                                @FXML private void SetActiveTruck()
+                                {
+                                    Library.SelectedTruckTilt();
+                                    Library.ShowRoutesInfo(0);
+                                    StartRoute.run();
 
 
 
+                                }
 
+                                @FXML private void ProgressBarTruck()
+                                {
+
+                                    ProgressBarTruck1.setProgress(Library.GetLength(0));
+
+                                }
+
+                                    @FXML
+                                    private void Exit()
+                                    {
+                                        Platform.exit();
+                                        System.exit(0);
+                                    }
 
 
 
