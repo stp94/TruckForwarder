@@ -271,7 +271,7 @@ public class Controller implements Initializable {
 
 
                                         if(Bars.get(0).getProgress()>0.99) {
-                                            InfoMessage.setText("Dojechala");
+                                            InfoMessage.setText("Truck arrived");
                                             playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash()+Library.GetReward(RoutesTable.getSelectionModel().getFocusedIndex())));
                                             Library.activeTruckTilt.remove(Library.activeTruckTilt.size());
                                             Library.equipTruckTilt.add(Library.equipTruckTilt.get(Library.equipTruckTilt.size()));
@@ -344,10 +344,7 @@ public class Controller implements Initializable {
 
 
         TiltLabelAmount.setText(String.format("%d", TiltAmount));
-        StandardLabelAmount.setText(String.format("%d", StandardAmount));
-        SetLabelAmount.setText(String.format("%d", SetAmount));
-        TankLabelAmount.setText(String.format("%d", TankAmount));
-        TipCartLabelAmount.setText(String.format("%d", TipCartAmount));
+
 
         CheckStatusOfTrucks();
     }
@@ -654,6 +651,7 @@ public class Controller implements Initializable {
 
             CheckAmountsofTrucks();
 
+            InfoMessage.setText("Truck started a route");
             StartRoute.run();
 
 
