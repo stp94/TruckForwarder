@@ -118,6 +118,11 @@ public class Controller implements Initializable {
     public Label NumberOfTruckLabel3 = new Label();  public Label SourceLabel3 = new Label();  public Label LengthLabel3 = new Label();  public Label CashRewardLabel3 = new Label();
     public Label NumberOfTruckLabel4 = new Label();  public Label SourceLabel4 = new Label();  public Label LengthLabel4 = new Label();  public Label CashRewardLabel4 = new Label();
     public Label NumberOfTruckLabel5 = new Label();  public Label SourceLabel5 = new Label();  public Label LengthLabel5 = new Label();  public Label CashRewardLabel5 = new Label();
+    public Label NumberOfTruckLabel6 = new Label();  public Label SourceLabel6 = new Label();  public Label LengthLabel6 = new Label();  public Label CashRewardLabel6 = new Label();
+    public Label NumberOfTruckLabel7 = new Label();  public Label SourceLabel7 = new Label();  public Label LengthLabel7 = new Label();  public Label CashRewardLabel7 = new Label();
+    public Label NumberOfTruckLabel8 = new Label();  public Label SourceLabel8 = new Label();  public Label LengthLabel8 = new Label();  public Label CashRewardLabel8 = new Label();
+    public Label NumberOfTruckLabel9 = new Label();  public Label SourceLabel9 = new Label();  public Label LengthLabel9 = new Label();  public Label CashRewardLabel9 = new Label();
+    public Label NumberOfTruckLabel10 = new Label();  public Label SourceLabel10 = new Label();  public Label LengthLabel10 = new Label();  public Label CashRewardLabel10 = new Label();
 
     public TableView<route> RoutesTable = new TableView<>();
     public TableColumn<route, String> SourceColumn = new TableColumn<>();
@@ -141,15 +146,27 @@ public class Controller implements Initializable {
     public ProgressBar ProgressBarTruck3 = new ProgressBar();
     public ProgressBar ProgressBarTruck4 = new ProgressBar();
     public ProgressBar ProgressBarTruck5 = new ProgressBar();
+    public ProgressBar ProgressBarTruck6 = new ProgressBar();
+    public ProgressBar ProgressBarTruck7 = new ProgressBar();
+    public ProgressBar ProgressBarTruck8 = new ProgressBar();
+    public ProgressBar ProgressBarTruck9 = new ProgressBar();
+    public ProgressBar ProgressBarTruck10 = new ProgressBar();
 
     private List<ProgressBar> Bars = new ArrayList<>();
 
 
+    private List<Label> SourceLabels = new ArrayList<>();
+    private List<Label> DestinationLabels = new ArrayList<>();
+    private List<Label> LengthLabels = new ArrayList<>();
+    private List<Label> CashRewardLabels = new ArrayList<>();
 
 
 
 
     public Label DestinationLabel1 = new Label(); public Label DestinationLabel2 = new Label(); public Label DestinationLabel3 = new Label(); public Label DestinationLabel4 = new Label();
+    public Label DestinationLabel5 = new Label(); public Label DestinationLabel6 = new Label(); public Label DestinationLabel7 = new Label(); public Label DestinationLabel8 = new Label();
+    public Label DestinationLabel9 = new Label(); public Label DestinationLabel10 = new Label();
+
     public VBox RouteSlideVBox1 = new VBox(); public VBox RouteSlideVBox2 = new VBox(); public VBox RouteSlideVBox3 = new VBox(); public VBox RouteSlideVBox4 = new VBox(); public VBox RouteSlideVBox5 = new VBox();
     public TextArea Route1Area = new TextArea();
 
@@ -176,11 +193,11 @@ public class Controller implements Initializable {
 
         Library.GenerateAvailableRoutes();
         PrepareBars();
-        ShowRoutes();
+
         CheckStatusOfTrucks();
         ShowTruckLabelsBought.setVisible(false);
         ShowTruckLabels.setVisible(false);
-        SetTrucksMainPanel();
+
         MainGameTimer.run();
         FillRoutesTable();
 
@@ -226,6 +243,8 @@ public class Controller implements Initializable {
                 }
             };                     myTimer.scheduleAtFixedRate(task, 1000, 1000);
         }}; // Main Clock in FXML
+
+
         private Runnable StartRoute = new Runnable() {
                 @Override
                 public void run() {
@@ -239,12 +258,31 @@ public class Controller implements Initializable {
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    int i;
 
-                                    for (i=0;i<Bars.size();i++) {
-                                        Bars.get(i).setProgress(progressPercent * 0.01 * Library.SelectedRoute(0) / 50);
 
+                                    {
+
+                                        Bars.get(0).setProgress(progressPercent * 0.01 * Library.SelectedRoute(RoutesTable.getSelectionModel().getFocusedIndex()) / 50);
+
+
+
+
+
+
+
+                                        if(Bars.get(0).getProgress()>0.99) {
+                                            InfoMessage.setText("Dojechala");
+                                            playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash()+Library.GetReward(RoutesTable.getSelectionModel().getFocusedIndex())));
+                                            Library.activeTruckTilt.remove(Library.activeTruckTilt.size());
+                                            Library.equipTruckTilt.add(Library.equipTruckTilt.get(Library.equipTruckTilt.size()));
+                                            System.out.println("jejeje");
+                                            routeTimer.cancel();
                                         }
+
+
+
+
+                                    }
 
                                 }
                             });
@@ -252,6 +290,7 @@ public class Controller implements Initializable {
                         }
                     };
                     routeTimer.scheduleAtFixedRate(task, 1000, 1000);
+
 
                 }
             }; // Timer of selected Truck
@@ -300,7 +339,18 @@ public class Controller implements Initializable {
 
 
 
+    private void CheckAmountsofTrucks()
+    {
 
+
+        TiltLabelAmount.setText(String.format("%d", TiltAmount));
+        StandardLabelAmount.setText(String.format("%d", StandardAmount));
+        SetLabelAmount.setText(String.format("%d", SetAmount));
+        TankLabelAmount.setText(String.format("%d", TankAmount));
+        TipCartLabelAmount.setText(String.format("%d", TipCartAmount));
+
+        CheckStatusOfTrucks();
+    }
 
 
 
@@ -497,31 +547,70 @@ public class Controller implements Initializable {
         Bars.add(ProgressBarTruck3);
         Bars.add(ProgressBarTruck4);
         Bars.add(ProgressBarTruck5);
+        Bars.add(ProgressBarTruck6);
+        Bars.add(ProgressBarTruck7);
+        Bars.add(ProgressBarTruck8);
+        Bars.add(ProgressBarTruck9);
+        Bars.add(ProgressBarTruck10);
+
+        SourceLabels.add(SourceLabel1);
+        SourceLabels.add(SourceLabel2);
+        SourceLabels.add(SourceLabel3);
+        SourceLabels.add(SourceLabel4);
+        SourceLabels.add(SourceLabel5);
+        SourceLabels.add(SourceLabel6);
+        SourceLabels.add(SourceLabel7);
+        SourceLabels.add(SourceLabel8);
+        SourceLabels.add(SourceLabel9);
+        SourceLabels.add(SourceLabel10);
+
+        DestinationLabels.add(DestinationLabel1);
+        DestinationLabels.add(DestinationLabel2);
+        DestinationLabels.add(DestinationLabel3);
+        DestinationLabels.add(DestinationLabel4);
+        DestinationLabels.add(DestinationLabel5);
+        DestinationLabels.add(DestinationLabel6);
+        DestinationLabels.add(DestinationLabel7);
+        DestinationLabels.add(DestinationLabel8);
+        DestinationLabels.add(DestinationLabel9);
+        DestinationLabels.add(DestinationLabel10);
+
+        LengthLabels.add(LengthLabel1);
+        LengthLabels.add(LengthLabel2);
+        LengthLabels.add(LengthLabel3);
+        LengthLabels.add(LengthLabel4);
+        LengthLabels.add(LengthLabel5);
+        LengthLabels.add(LengthLabel6);
+        LengthLabels.add(LengthLabel7);
+        LengthLabels.add(LengthLabel8);
+        LengthLabels.add(LengthLabel9);
+        LengthLabels.add(LengthLabel10);
+
+        CashRewardLabels.add(CashRewardLabel1);
+        CashRewardLabels.add(CashRewardLabel2);
+        CashRewardLabels.add(CashRewardLabel3);
+        CashRewardLabels.add(CashRewardLabel4);
+        CashRewardLabels.add(CashRewardLabel5);
+        CashRewardLabels.add(CashRewardLabel6);
+        CashRewardLabels.add(CashRewardLabel7);
+        CashRewardLabels.add(CashRewardLabel8);
+        CashRewardLabels.add(CashRewardLabel9);
+        CashRewardLabels.add(CashRewardLabel10);
+
+
+
     }
 
-    private void ShowRoutes()
+
+
+
+
+    private void PrepareActiveTaskInMainPanel()
     {
-
-
-
-
-        Route1.setText(Library.ShowRoutesInfo(0));
-        Route2.setText(Library.ShowRoutesInfo(1));
-        Route3.setText(Library.ShowRoutesInfo(2));
-
-        InfoRoute1.setText(Library.ShowRoutesInfo(0));
-        InfoRoute2.setText(Library.ShowRoutesInfo(1));
-        InfoRoute3.setText(Library.ShowRoutesInfo(2));
-
-        RouteName1.setText(Library.GetSource(0)+ "-" + Library.GetDestination(0));
-        RouteName2.setText(Library.GetSource(1)+ "-" + Library.GetDestination(1));
-        RouteName3.setText(Library.GetSource(2)+ "-" + Library.GetDestination(2));
-        //RouteName4.setText(Library.GetSource(3)+ "-" + Library.GetDestination(3));
-
-
-
-
-
+        SourceLabels.get(0).setText(Library.GetSource(RoutesTable.getSelectionModel().getFocusedIndex()));
+        DestinationLabels.get(0).setText(Library.GetDestination(RoutesTable.getSelectionModel().getFocusedIndex()));
+        LengthLabels.get(0).setText(String.format("%x",Library.GetLength(RoutesTable.getSelectionModel().getFocusedIndex())  ) ) ;
+        CashRewardLabels.get(0).setText(String.format("%.2f",Library.GetReward(RoutesTable.getSelectionModel().getFocusedIndex())));
 
     }
 
@@ -546,29 +635,112 @@ public class Controller implements Initializable {
 
         ObservableList<route> RoutesObservableList = FXCollections.observableArrayList(Library.GetAvailableRoutes());
 
-
-
         RoutesTable.setItems(RoutesObservableList);
         RoutesTable.getColumns().addAll(SourceColumn,DestinationColumn,LengthColumn,CashRewardColumn,CategoryColumn);
 
 
+    }
+
+
+    @FXML
+    private void SelectRouteFromTableToTilt()
+    {
+
+        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0 && Library.equipTruckTilt.size()>0 ) {
+
+            Library.activeTruckTilt.add(Library.equipTruckTilt.get(Library.equipTruckSet.size()));
+            Library.equipTruckTilt.remove(Library.equipTruckSet.size());
+            PrepareActiveTaskInMainPanel();
+
+            CheckAmountsofTrucks();
+
+            StartRoute.run();
+
+
+        }
 
 
 
 
-
-
-
-
-
-
-
-
-
+        else
+            InfoMessage.setText("First select a route and buy Tilt truck");
 
 
 
     }
+
+    @FXML
+    private void SelectRouteFromTableToStandard()
+    {
+
+        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0)
+
+            // RoutesTable.getSelectionModel().getSelectedCells();
+            System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
+
+        else
+            InfoMessage.setText("First select a route and buy Standard truck");
+
+
+
+    }
+
+    @FXML
+    private void SelectRouteFromTableToSet()
+    {
+
+        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0)
+
+            // RoutesTable.getSelectionModel().getSelectedCells();
+            System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
+
+        else
+            InfoMessage.setText("First select a route and buy Set truck");
+
+
+
+    }
+
+    @FXML
+    private void SelectRouteFromTableToTank()
+    {
+
+        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0)
+
+            // RoutesTable.getSelectionModel().getSelectedCells();
+            System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
+
+        else
+            InfoMessage.setText("First select a route and buy Tank truck");
+
+
+
+    }
+
+    @FXML
+    private void SelectRouteFromTableToTipCart()
+    {
+
+        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0)
+
+            // RoutesTable.getSelectionModel().getSelectedCells();
+            System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
+
+        else
+            InfoMessage.setText("First select a route and buy Tipper truck");
+
+
+
+    }
+
+
+
+    private void GetRewardFromRoute()
+    {
+
+    }
+
+
 
     private void SetTrucksMainPanel()
     {

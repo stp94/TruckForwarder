@@ -25,13 +25,17 @@ public class trucks_lists {
     // Type of Trucks
 
 
-    private List<truck> equipTruckTilt = new ArrayList<>();
-    private List<truck> equipTruckStandard = new ArrayList<>();
-    private List<truck> equipTruckSet = new ArrayList<>();
-    private List<truck> equipTruckTank = new ArrayList<>();
-    private List<truck> equipTruckTipCart = new ArrayList<>(); // Bought Trucks
+    List<truck> equipTruckTilt = new ArrayList<>();
+    List<truck> equipTruckStandard = new ArrayList<>();
+    List<truck> equipTruckSet = new ArrayList<>();
+    List<truck> equipTruckTank = new ArrayList<>();
+    List<truck> equipTruckTipCart = new ArrayList<>(); // Bought Trucks
 
-    private List<truck> activeTruckTilt = new ArrayList<>();
+    List<truck> activeTruckTilt = new ArrayList<>();
+    List<truck> activeTruckStandard = new ArrayList<>();
+    List<truck> activeTruckSet = new ArrayList<>();
+    List<truck> activeTruckTank = new ArrayList<>();
+    List<truck> activeTruckTipCart = new ArrayList<>();
 
 
 
