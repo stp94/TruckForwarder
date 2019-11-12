@@ -276,7 +276,7 @@ public class Controller implements Initializable {
                                             Library.activeTruckTilt.remove(Library.activeTruckTilt.size());
                                             Library.equipTruckTilt.add(Library.equipTruckTilt.get(Library.equipTruckTilt.size()));
                                             System.out.println("jejeje");
-                                            routeTimer.cancel();
+                                            routeTimer.cancel(); //d
                                         }
 
 
