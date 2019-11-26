@@ -21,6 +21,10 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.transform.Source;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 @Component
@@ -28,7 +32,7 @@ public class Controller implements Initializable {
 
     private player NewPlayer = new player("Piotr", 130000, 1000); // Create a default player
 
-    private int TiltAmount, StandardAmount, SetAmount, TankAmount, TipCartAmount; // Amount of every truck type in currently game
+    private int TiltAmount, StandardAmount, SetAmount, TankAmount, TipCartAmount; // Amount of every truck type, in currently game
     private boolean creditstatus, initFlag; // flags
 
 
@@ -40,21 +44,19 @@ public class Controller implements Initializable {
     private long secondsBar=0;
     private long minuteBar=0;
     private long hourBar=0;
-    double progressPercent=0.0;
 
-    private static double xOffset = 0;
-    private static double yOffset = 0;
+
+    private int mainElementOfTask=0;
+
+
 
     //  /\  variables to Timer - working
 
 
-    trucks_lists Library = new trucks_lists(); // trucks_lists Could be change name to more "global" class
+    private trucks_lists Library = new trucks_lists(); // Class with methods of Trucks and Routes for Controller
 
 
     // \/ GuiElementsDefinitions
-
-    public BorderPane MainBP = new BorderPane();
-
 
     public Label TiltLabelAmount = new Label();
     public Label StandardLabelAmount = new Label();
@@ -62,26 +64,6 @@ public class Controller implements Initializable {
     public Label TankLabelAmount = new Label();
     public Label TipCartLabelAmount = new Label();
     public Label AmountLabel = new Label();
-
-    //public Label ShowTruckLabels = new Label();
-
-    public Label Route1=new Label();
-    public Label Route2=new Label();
-    public Label Route3=new Label();
-    public Label Route4=new Label();
-    public Label Route5=new Label();
-    public Label RouteName1=new Label();
-    public Label RouteName2=new Label();
-    public Label RouteName3=new Label();
-    public Label RouteName4=new Label();
-
-    public Label ActiveSourceLabel1=new Label();
-
-
-    public Label InfoRoute1=new Label();
-    public Label InfoRoute2=new Label();
-    public Label InfoRoute3=new Label();
-
 
 
     public Button BuyTilt = new Button();
@@ -110,7 +92,7 @@ public class Controller implements Initializable {
     public TextArea ShowTruckDetailsInfoBought = new TextArea();
     public TextArea ShowTruckLabels = new TextArea();
     public TextArea ShowTruckLabelsBought = new TextArea();
-    public TextArea RouteInfoLabel = new TextArea();
+
 
 
     public Label NumberOfTruckLabel1 = new Label();  public Label SourceLabel1 = new Label();  public Label LengthLabel1 = new Label();  public Label CashRewardLabel1 = new Label();
@@ -137,10 +119,6 @@ public class Controller implements Initializable {
     public TableColumn<route, String> CategoryColumn = new TableColumn<>();
 
 
-
-    public List<Label> SourcesLabel = new ArrayList<>(250);
-
-
     public ProgressBar ProgressBarTruck1 = new ProgressBar();
     public ProgressBar ProgressBarTruck2 = new ProgressBar();
     public ProgressBar ProgressBarTruck3 = new ProgressBar();
@@ -160,20 +138,19 @@ public class Controller implements Initializable {
     private List<Label> LengthLabels = new ArrayList<>();
     private List<Label> CashRewardLabels = new ArrayList<>();
 
-
-
+    private List<Runnable> StartRouteList = new ArrayList<>();
 
     public Label DestinationLabel1 = new Label(); public Label DestinationLabel2 = new Label(); public Label DestinationLabel3 = new Label(); public Label DestinationLabel4 = new Label();
     public Label DestinationLabel5 = new Label(); public Label DestinationLabel6 = new Label(); public Label DestinationLabel7 = new Label(); public Label DestinationLabel8 = new Label();
     public Label DestinationLabel9 = new Label(); public Label DestinationLabel10 = new Label();
 
-    public VBox RouteSlideVBox1 = new VBox(); public VBox RouteSlideVBox2 = new VBox(); public VBox RouteSlideVBox3 = new VBox(); public VBox RouteSlideVBox4 = new VBox(); public VBox RouteSlideVBox5 = new VBox();
-    public TextArea Route1Area = new TextArea();
 
 
 
 
-    // /\ GuiElementsDefinitions
+
+
+    // /\ Gui Elements Definitions
 
 
 
@@ -190,115 +167,572 @@ public class Controller implements Initializable {
         playerName.setText(NewPlayer.getPlayer_Name());
         playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash()));
         playerRespect.setText(String.format("%.2f", NewPlayer.getPlayer_Respect()));
-
         Library.GenerateAvailableRoutes();
         PrepareBars();
-
+        PrepareTasks();
         CheckStatusOfTrucks();
         ShowTruckLabelsBought.setVisible(false);
         ShowTruckLabels.setVisible(false);
-
         MainGameTimer.run();
         FillRoutesTable();
-
-
     }
 
 
 
     // /\  Declaration of currently player status, generate environment
 
-        private Runnable MainGameTimer = new Runnable() {
-        @Override
-        public void run() {
+        private Runnable MainGameTimer = () ->
+        {
 
 
             Timer myTimer = new Timer();
-            TimerTask task = new TimerTask() {
+            TimerTask task = new TimerTask()
+            {
 
                 @Override
-                public void run() {
+                public void run()
+                {
 
 
                     secondsPassed++;
 
-                    if (secondsPassed == 60) {
-                        minutePassed++;
-                        secondsPassed = 0;
-                    }
-
-                    if (minutePassed == 60) {
-                        hourPassed++;
-                        minutePassed = 0;
-                    }
-
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            MainTimeLabel.setText(String.format("%d", minutePassed)+ ":"+ String.format("%d", secondsPassed));
-
-
+                        if (secondsPassed == 60)
+                        {
+                            minutePassed++;
+                            secondsPassed = 0;
                         }
-                    });
+
+                        if (minutePassed == 60)
+                        {
+                            hourPassed++;
+                            minutePassed = 0;
+                        }
+
+                    Platform.runLater(() -> MainTimeLabel.setText(String.format("%d", minutePassed)+ ":"+ String.format("%d", secondsPassed)));
                 }
-            };                     myTimer.scheduleAtFixedRate(task, 1000, 1000);
-        }}; // Main Clock in FXML
+            };      myTimer.scheduleAtFixedRate(task, 1000, 1000);
+        }; // Main Clock of Game
 
 
-        private Runnable StartRoute = new Runnable() {
-                @Override
-                public void run() {
-                    Timer routeTimer = new Timer();
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            secondsBar++;
-                            progressPercent++;
-
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-
-
+                                    private  Runnable StartRoute0 = new Runnable()
                                     {
-
-                                        Bars.get(0).setProgress(progressPercent * 0.01 * Library.SelectedRoute(RoutesTable.getSelectionModel().getFocusedIndex()) / 50);
-
-
-
-
-
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
 
 
-                                        if(Bars.get(0).getProgress()>0.99) {
-                                            InfoMessage.setText("Truck arrived");
-                                            playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash()+Library.GetReward(RoutesTable.getSelectionModel().getFocusedIndex())));
-                                            Library.activeTruckTilt.remove(Library.activeTruckTilt.size());
-                                            Library.equipTruckTilt.add(Library.equipTruckTilt.get(Library.equipTruckTilt.size()));
-                                            System.out.println("jejeje");
-                                            routeTimer.cancel(); //d
+                                            {
+                                                          Bars.get(0).setProgress(0);
+                                                          progressPercent=0;
+                                                          FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                          Timer routeTimer = new Timer();
+                                                          TimerTask routeTask = new TimerTask()
+                                                          {
+                                                              @Override
+                                                                  public void run()
+                                                                  {
+
+
+                                                                      progressPercent++;
+
+
+                                                                              Platform.runLater(() ->
+                                                                                     Bars.get(0).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
+
+
+
+
+
+                                                                          if (Bars.get(0).getProgress() > 1)
+                                                                          {
+                                                                              NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                                              Platform.runLater(() ->
+                                                                                      playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                                              routeTimer.cancel();
+                                                                              Thread.currentThread().interrupt();
+                                                                              Thread.currentThread().stop();
+                                                                          }
+                                                                  }
+                                                          };
+                                                          routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
                                         }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute1 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
+
+
+                                            {
+                                                Bars.get(1).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(1).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
 
 
 
 
-                                    }
 
-                                }
-                            });
+                                                        if (Bars.get(1).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
 
-                        }
-                    };
-                    routeTimer.scheduleAtFixedRate(task, 1000, 1000);
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute2 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
 
 
-                }
-            }; // Timer of selected Truck
+                                            {
+                                                Bars.get(2).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(2).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
 
 
 
 
-        //\ Timers
+
+                                                        if (Bars.get(2).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute3 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
+
+
+                                            {
+                                                Bars.get(3).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(3).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
+
+
+
+
+
+                                                        if (Bars.get(3).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute4 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
+
+
+                                            {
+                                                Bars.get(4).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(4).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
+
+
+
+
+
+                                                        if (Bars.get(4).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute5 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
+
+
+                                            {
+                                                Bars.get(5).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(5).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
+
+
+
+
+
+                                                        if (Bars.get(5).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute6 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
+
+
+                                            {
+                                                Bars.get(6).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(6).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
+
+
+
+
+
+                                                        if (Bars.get(6).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute7 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
+
+
+                                            {
+                                                Bars.get(7).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(7).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
+
+
+
+
+
+                                                        if (Bars.get(7).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute8 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
+
+
+                                            {
+                                                Bars.get(8).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(8).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
+
+
+
+
+
+                                                        if (Bars.get(8).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+
+                                    private  Runnable StartRoute9 = new Runnable()
+                                    {
+                                        double progressPercent=0.0;
+                                        int FocusedIndexInTask;
+                                        @Override
+                                        public void run()
+                                        {
+
+
+                                            {
+                                                Bars.get(9).setProgress(0);
+                                                progressPercent=0;
+                                                FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
+
+                                                Timer routeTimer = new Timer();
+                                                TimerTask routeTask = new TimerTask()
+                                                {
+                                                    @Override
+                                                    public void run()
+                                                    {
+
+
+                                                        progressPercent++;
+
+
+                                                        Platform.runLater(() ->
+                                                                Bars.get(9).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
+
+
+
+
+
+                                                        if (Bars.get(9).getProgress() > 1)
+                                                        {
+                                                            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
+
+                                                            Platform.runLater(() ->
+                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            routeTimer.cancel();
+                                                            Thread.currentThread().interrupt();
+                                                            Thread.currentThread().stop();
+                                                        }
+                                                    }
+                                                };
+                                                routeTimer.scheduleAtFixedRate(routeTask, 1000, 1000);
+                                            }
+
+                                        }
+                                    }; // end of StartRoute Runnable
+    // /\ Runnable Tasks for Routes in Main Panel
+
+
+
+
+        private void PrepareTasks(){
+
+            StartRouteList.add(StartRoute0);
+            StartRouteList.add(StartRoute1);
+            StartRouteList.add(StartRoute2);
+            StartRouteList.add(StartRoute3);
+            StartRouteList.add(StartRoute4);
+            StartRouteList.add(StartRoute5);
+            StartRouteList.add(StartRoute6);
+            StartRouteList.add(StartRoute7);
+            StartRouteList.add(StartRoute8);
+            StartRouteList.add(StartRoute9);
+
+        }
+
 
 
         private void CheckStatusOfTrucks() {
@@ -494,41 +928,7 @@ public class Controller implements Initializable {
 
     }
 
-    @FXML
-    private void TiltBoxInit(MouseEvent event) {
 
-
-
-
-    }
-
-    @FXML
-    private void RoutesToTextArea1 (MouseEvent event)
-    {
-        RouteInfoLabel.setText(Library.ShowRoutesInfo(0));
-
-    }
-
-    @FXML
-    private void RoutesToTextArea2 (MouseEvent event)
-    {
-        RouteInfoLabel.setText(Library.ShowRoutesInfo(1));
-
-    }
-
-    @FXML
-    private void RoutesToTextArea3 (MouseEvent event)
-    {
-        RouteInfoLabel.setText(Library.ShowRoutesInfo(2));
-
-    }
-
-    @FXML
-    private void RoutesToTextArea4 (MouseEvent event)
-    {
-        RouteInfoLabel.setText(Library.ShowRoutesInfo(3));
-
-    }
 
     @FXML
     private void Compare()
@@ -598,228 +998,212 @@ public class Controller implements Initializable {
 
     }
 
+        private void GetStartRouteWithParameter(int elementOfRunnable)
+        {
+
+            StartRouteList.get(elementOfRunnable).run();
+        }
 
 
 
-
-    private void PrepareActiveTaskInMainPanel()
-    {
-        SourceLabels.get(0).setText(Library.GetSource(RoutesTable.getSelectionModel().getFocusedIndex()));
-        DestinationLabels.get(0).setText(Library.GetDestination(RoutesTable.getSelectionModel().getFocusedIndex()));
-        LengthLabels.get(0).setText(String.format("%x",Library.GetLength(RoutesTable.getSelectionModel().getFocusedIndex())  ) ) ;
-        CashRewardLabels.get(0).setText(String.format("%.2f",Library.GetReward(RoutesTable.getSelectionModel().getFocusedIndex())));
-
-    }
-
-
-    private void FillRoutesTable()
-    {
-
-
-
-
-
-
-
-
-
-
-        SourceColumn.setCellValueFactory(new PropertyValueFactory<>("routeSource"));
-        DestinationColumn.setCellValueFactory(new PropertyValueFactory<>("routeDestination"));
-        LengthColumn.setCellValueFactory(new PropertyValueFactory<>("routeLength"));
-        CashRewardColumn.setCellValueFactory(new PropertyValueFactory<>("routeCashReward"));
-        CategoryColumn.setCellValueFactory(new PropertyValueFactory<>("routeCategory"));
-
-        ObservableList<route> RoutesObservableList = FXCollections.observableArrayList(Library.GetAvailableRoutes());
-
-        RoutesTable.setItems(RoutesObservableList);
-        RoutesTable.getColumns().addAll(SourceColumn,DestinationColumn,LengthColumn,CashRewardColumn,CategoryColumn);
-
-
-    }
-
-
-    @FXML
-    private void SelectRouteFromTableToTilt()
-    {
-
-        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0 && Library.equipTruckTilt.size()>0 ) {
-
-            Library.activeTruckTilt.add(Library.equipTruckTilt.get(Library.equipTruckSet.size()));
-            Library.equipTruckTilt.remove(Library.equipTruckSet.size());
-            PrepareActiveTaskInMainPanel();
-
-            CheckAmountsofTrucks();
-
-            InfoMessage.setText("Truck started a route");
-            StartRoute.run();
+        private void PrepareActiveTaskInMainPanel(int elementOfBar)
+        {
+            SourceLabels.get(elementOfBar).setText(Library.GetSource(RoutesTable.getSelectionModel().getFocusedIndex()));
+            DestinationLabels.get(elementOfBar).setText(Library.GetDestination(RoutesTable.getSelectionModel().getFocusedIndex()));
+            LengthLabels.get(elementOfBar).setText(String.format("%x",Library.GetLength(RoutesTable.getSelectionModel().getFocusedIndex())  ) ) ;
+            CashRewardLabels.get(elementOfBar).setText(String.format("%.2f",Library.GetReward(RoutesTable.getSelectionModel().getFocusedIndex())));
 
 
         }
 
 
+        private void FillRoutesTable()
+        {
+            SourceColumn.setCellValueFactory(new PropertyValueFactory<>("routeSource"));
+            DestinationColumn.setCellValueFactory(new PropertyValueFactory<>("routeDestination"));
+            LengthColumn.setCellValueFactory(new PropertyValueFactory<>("routeLength"));
+            CashRewardColumn.setCellValueFactory(new PropertyValueFactory<>("routeCashReward"));
+            CategoryColumn.setCellValueFactory(new PropertyValueFactory<>("routeCategory"));
+
+            ObservableList<route> RoutesObservableList = FXCollections.observableArrayList(Library.GetAvailableRoutes());
+
+            RoutesTable.setItems(RoutesObservableList);
+            //RoutesTable.getColumns().addAll(SourceColumn,DestinationColumn,LengthColumn,CashRewardColumn,CategoryColumn);
 
 
-        else
-            InfoMessage.setText("First select a route and buy Tilt truck");
+        }
 
 
+                @FXML
+                private void SelectRouteFromTableToTilt()
+                {
 
-    }
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTilt.size() > 0)
+                    {
 
-    @FXML
-    private void SelectRouteFromTableToStandard()
-    {
-
-        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0)
-
-            // RoutesTable.getSelectionModel().getSelectedCells();
-            System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
-
-        else
-            InfoMessage.setText("First select a route and buy Standard truck");
-
-
-
-    }
-
-    @FXML
-    private void SelectRouteFromTableToSet()
-    {
-
-        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0)
-
-            // RoutesTable.getSelectionModel().getSelectedCells();
-            System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
-
-        else
-            InfoMessage.setText("First select a route and buy Set truck");
+                        Library.activeTruckTilt.add(Library.equipTruckTilt.get(Library.equipTruckTilt.size()-1));
+                        Library.equipTruckTilt.remove(0);
+                        PrepareActiveTaskInMainPanel(mainElementOfTask);
 
 
 
-    }
-
-    @FXML
-    private void SelectRouteFromTableToTank()
-    {
-
-        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0)
-
-            // RoutesTable.getSelectionModel().getSelectedCells();
-            System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
-
-        else
-            InfoMessage.setText("First select a route and buy Tank truck");
+                        CheckAmountsofTrucks();
 
 
+                        InfoMessage.setText("Truck started a route");
+                        GetStartRouteWithParameter(mainElementOfTask);
 
-    }
-
-    @FXML
-    private void SelectRouteFromTableToTipCart()
-    {
-
-        if (RoutesTable.getSelectionModel().getFocusedIndex()!=0)
-
-            // RoutesTable.getSelectionModel().getSelectedCells();
-            System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
-
-        else
-            InfoMessage.setText("First select a route and buy Tipper truck");
+                        mainElementOfTask++;
 
 
-
-    }
-
-
-
-    private void GetRewardFromRoute()
-    {
-
-    }
-
-
-
-    private void SetTrucksMainPanel()
-    {
-        NumberOfTruckLabel1.setText("1");
-        SourceLabel1.setText(Library.GetSource(0));
-        DestinationLabel1.setText(Library.GetDestination(0));
-        LengthLabel1.setText(String.format("%d",Library.GetLength(0)) + "km");
-        CashRewardLabel1.setText("$" + String.format("%s",Library.GetReward(0)));
-
-        NumberOfTruckLabel2.setText("2");
-        SourceLabel2.setText(Library.GetSource(1));
-        DestinationLabel2.setText(Library.GetDestination(1));
-        LengthLabel2.setText(String.format("%d",Library.GetLength(1)) + "km");
-        CashRewardLabel2.setText("$" +  String.format("%s",Library.GetReward(1)));
-
-        NumberOfTruckLabel3.setText("3");
-        SourceLabel3.setText(Library.GetSource(2));
-        DestinationLabel3.setText(Library.GetDestination(2));
-        LengthLabel3.setText(String.format("%d",Library.GetLength(2)) + "km");
-        CashRewardLabel3.setText("$" + String.format("%s",Library.GetReward(2)));
+                    }
+                    else
+                        InfoMessage.setText("First select a route or check tilt truck availability");
+                }
 
 
 
 
-    }
+                @FXML
+                private void SelectRouteFromTableToStandard()
+                {
 
-            @FXML private void RouteVBoxAnimationSlider1()
-            {
-                RouteSlideVBox1.setPrefHeight(200);
-            }
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckStandard.size() > 0)
 
-            @FXML private void RouteVBoxAnimationSliderHide1() { RouteSlideVBox1.setPrefHeight(30);}
 
-            @FXML private void RouteVBoxAnimationSlider2()
-            {
-                RouteSlideVBox2.setPrefHeight(200);
-            }
+                        {
 
-            @FXML private void RouteVBoxAnimationSliderHide2()
-            {
-                RouteSlideVBox2.setPrefHeight(30);
-            }
-
-            @FXML private void RouteVBoxAnimationSlider3()
-            {
-                RouteSlideVBox3.setPrefHeight(200);
-            }
-
-            @FXML private void RouteVBoxAnimationSliderHide3()
-            {
-                RouteSlideVBox3.setPrefHeight(30);
-            }
-
-            @FXML private void RouteVBoxAnimationSlider4()
-            {
-                RouteSlideVBox4.setPrefHeight(200);
-            }
-
-            @FXML private void RouteVBoxAnimationSliderHide4()
-            {
-                RouteSlideVBox4.setPrefHeight(30);
-            }
+                            Library.activeTruckStandard.add(Library.equipTruckStandard.get(Library.equipTruckStandard.size()-1));
+                            Library.equipTruckStandard.remove(0);
+                            PrepareActiveTaskInMainPanel(mainElementOfTask);
 
 
 
-                                @FXML private void SetActiveTruck()
-                                {
-                                    Library.SelectedTruckTilt();
-                                    Library.ShowRoutesInfo(0);
-                                    StartRoute.run();
+                            CheckAmountsofTrucks();
+
+
+                            InfoMessage.setText("Truck started a route");
+                            GetStartRouteWithParameter(mainElementOfTask);
+
+                            mainElementOfTask++;
+
+
+                        }
+                        else
+                            InfoMessage.setText("First select a route or check standard truck availability");
 
 
 
-                                }
+                }
 
-                                @FXML private void ProgressBarTruck()
-                                {
+                @FXML
+                private void SelectRouteFromTableToSet()
+                {
 
-                                    ProgressBarTruck1.setProgress(Library.GetLength(0));
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckSet.size() > 0)
 
-                                }
+
+                    {
+
+                        Library.activeTruckSet.add(Library.equipTruckSet.get(Library.equipTruckSet.size()-1));
+                        Library.equipTruckSet.remove(0);
+                        PrepareActiveTaskInMainPanel(mainElementOfTask);
+
+
+
+                        CheckAmountsofTrucks();
+
+
+                        InfoMessage.setText("Truck started a route");
+                        GetStartRouteWithParameter(mainElementOfTask);
+
+                        mainElementOfTask++;
+
+
+                    }
+                    else
+                        InfoMessage.setText("First select a route or check set truck availability");
+
+
+
+                }
+
+
+
+                @FXML
+                private void SelectRouteFromTableToTank()
+                {
+
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTank.size() > 0)
+
+
+                    {
+
+                        Library.activeTruckTank.add(Library.equipTruckTank.get(Library.equipTruckTank.size()-1));
+                        Library.equipTruckTank.remove(0);
+                        PrepareActiveTaskInMainPanel(mainElementOfTask);
+
+
+
+                        CheckAmountsofTrucks();
+
+
+                        InfoMessage.setText("Truck started a route");
+                        GetStartRouteWithParameter(mainElementOfTask);
+
+                        mainElementOfTask++;
+
+
+                    }
+                    else
+                        InfoMessage.setText("First select a route or check tank truck availability");
+
+
+
+                }
+
+
+                @FXML
+                private void SelectRouteFromTableToTipCart()
+                {
+
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTipCart.size() > 0)
+
+
+                    {
+
+                        Library.activeTruckTipCart.add(Library.equipTruckTipCart.get(Library.equipTruckTipCart.size()-1));
+                        Library.equipTruckTipCart.remove(0);
+                        PrepareActiveTaskInMainPanel(mainElementOfTask);
+
+
+
+                        CheckAmountsofTrucks();
+
+
+                        InfoMessage.setText("Truck started a route");
+                        GetStartRouteWithParameter(mainElementOfTask);
+
+                        mainElementOfTask++;
+
+
+                    }
+                    else
+                        InfoMessage.setText("First select a route or check tank truck availability");
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+
 
                                     @FXML
                                     private void Exit()

@@ -32,7 +32,7 @@
                            <children>
                               <TextFlow layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="400.0">
                                  <children>
-                                    <ImageView fx:id="img_tilt_bought" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#TiltBoxInit" onMouseEntered="#ShowTiltPrice" onMouseExited="#HideTiltPrice" pickOnBounds="true" preserveRatio="true" translateX="10.0">
+                                    <ImageView fx:id="img_tilt_bought" fitHeight="150.0" fitWidth="200.0" onMouseEntered="#ShowTiltPrice" onMouseExited="#HideTiltPrice" pickOnBounds="true" preserveRatio="true" translateX="10.0">
                                        <image>
                                           <Image url="@tracktilt.png" />
                                        </image>
@@ -273,7 +273,7 @@
                         </TableView>
                         <VBox layoutX="1000.0" layoutY="36.0" prefHeight="546.0" prefWidth="198.0">
                            <children>
-                              <ImageView fitHeight="80.0" fitWidth="200.0" onMouseClicked="#SelectRouteFromTableToTilt" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_tilt_bought" fitHeight="80.0" fitWidth="200.0" onMouseClicked="#SelectRouteFromTableToTilt" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@tracktilt.png" />
                                  </image>
@@ -284,7 +284,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#SelectRouteFromTableToStandard" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_standard_bought" fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#SelectRouteFromTableToStandard" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@trackstandard.png" />
                                  </image>
@@ -295,7 +295,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="90.0" onMouseClicked="#SelectRouteFromTableToSet" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_set_bought" fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="90.0" onMouseClicked="#SelectRouteFromTableToSet" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@set.png" />
                                  </image>
@@ -306,7 +306,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="170.0" onMouseClicked="#SelectRouteFromTableToTank" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_tank_bought" fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="170.0" onMouseClicked="#SelectRouteFromTableToTank" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@tracktunk.png" />
                                  </image>
@@ -317,7 +317,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="250.0" onMouseClicked="#SelectRouteFromTableToTipCart" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_tipcart_bought" fitHeight="80.0" fitWidth="200.0" layoutX="10.0" layoutY="250.0" onMouseClicked="#SelectRouteFromTableToTipCart" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@tipcart.png" />
                                  </image>

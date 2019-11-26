@@ -20,7 +20,7 @@ public class trucks_lists {
     private truck Tank = new truck("Tank", "u", 13.4, 2.55, 3.7, 34, 51, 45000);
     private truck TipCart = new truck("Tip-cart", "uw", 13.6, 2.45, 2.6, 25, 33, 45000);
 
-    private poiXLSread RouteDatabase = new poiXLSread();
+    private poiXLSread RouteDatabase = new poiXLSread(); // Simple DataBase in XLS file
 
     // Type of Trucks
 
@@ -35,7 +35,7 @@ public class trucks_lists {
     List<truck> activeTruckStandard = new ArrayList<>();
     List<truck> activeTruckSet = new ArrayList<>();
     List<truck> activeTruckTank = new ArrayList<>();
-    List<truck> activeTruckTipCart = new ArrayList<>();
+    List<truck> activeTruckTipCart = new ArrayList<>(); // Active Trucks
 
 
 
@@ -65,6 +65,8 @@ public class trucks_lists {
         equipTruckTipCart.add(TipCart);
     }
 
+    // /\ Simple methods which add trucks to equip
+
     void GenerateAvailableRoutes() {
 
 
@@ -72,116 +74,63 @@ public class trucks_lists {
 
 
 
-    }
+    } // Copy Content from XLS to Route List
 
-    public String GetElementFromAvailableRoutes(int pos) {
-        return AvailableRoutes.get(pos).routeSource + AvailableRoutes.get(pos).routeDestination + AvailableRoutes.get(pos).routeLength + AvailableRoutes.get(pos).routeCashReward;
-    }
 
-    ;
-
-    public String GetSource(int pos) {
+    String GetSource(int pos) {
         return AvailableRoutes.get(pos).routeSource;
     }
 
-    public String GetDestination(int pos) {
+    String GetDestination(int pos) {
         return AvailableRoutes.get(pos).routeDestination;
     }
 
-    public long GetLength(int pos) {
+    long GetLength(int pos) {
         return AvailableRoutes.get(pos).routeLength;
     }
 
-    public double GetReward(int pos) {
+    double GetReward(int pos) {
         return AvailableRoutes.get(pos).routeCashReward;
     }
 
 
-    public String showTiltPrice() {
-
-        return String.format("%.0f", Tilt.getTruckPrice()) + "$";
-
-    }
-
-    public String showStandardPrice() {
-
-        return String.format("%.0f", Standard.getTruckPrice()) + "$";
-
-    }
-
-    public String showSetPrice() {
-
-        return String.format("%.0f", Set.getTruckPrice()) + "$";
-
-    }
-
-    public String showTankPrice() {
-
-        return String.format("%.0f", Tank.getTruckPrice()) + "$";
-
-    }
-
-    public String showTipCartPrice() {
-
-        return String.format("%.0f", TipCart.getTruckPrice()) + "$";
-
-    }
-
-
-    public String showTiltInfo() {
+    String showTiltInfo() {
 
         return "Plandeka " + "\nTyl" + "\nDlugosc: " + String.format("%.2f", Tilt.getTruckLength()) + "\n" + String.format("%.2f", Tilt.getTruckWidth()) + "\n"
                 + String.format("%.2f", Tilt.getTruckHeight()) + "\n" + String.format("%.2f", Tilt.getTruckWeight()) + "\n" + String.format("%.2f", Tilt.getTruckCapacity()) + "\n";
 
     }
 
-    public String showStandardInfo() {
+    String showStandardInfo() {
 
         return "Standard " + "\nTyl, Bok" + "\n" + String.format("%.2f", Standard.getTruckLength()) + "\n" + String.format("%.2f", Standard.getTruckWidth()) + "\n"
                 + String.format("%.2f", Standard.getTruckHeight()) + "\n " + String.format("%.2f", Standard.getTruckWeight()) + "\n" + String.format("%.2f", Standard.getTruckCapacity()) + "\n";
 
     }
 
-    public String showSetInfo() {
+    String showSetInfo() {
 
         return "Zestaw " + "\nTyl" + "\n" + String.format("%.2f", Set.getTruckLength()) + "\n" + String.format("%.2f", Set.getTruckWidth()) + "\n"
                 + String.format("%.2f", Set.getTruckHeight()) + "\n" + String.format("%.2f", Set.getTruckWeight()) + "\n" + String.format("%.2f", Set.getTruckCapacity()) + "\n";
 
     }
 
-    public String showTankInfo() {
+    String showTankInfo() {
 
         return "Cysterna " + "\nGora" + "\n" + String.format("%.2f", Tank.getTruckLength()) + "\n" + String.format("%.2f", Tank.getTruckWidth()) + "\n"
                 + String.format("%.2f", Tank.getTruckHeight()) + "\n" + String.format("%.2f", Tank.getTruckWeight()) + "\n" + String.format("%.2f", Tank.getTruckCapacity()) + "\n";
 
     }
 
-    public String showTipCartInfo() {
+    String showTipCartInfo() {
 
         return "Wywrotka " + "\nGora" + "\n" + String.format("%.2f", TipCart.getTruckLength()) + "\n" + String.format("%.2f", TipCart.getTruckWidth()) + "\n"
                 + String.format("%.2f", TipCart.getTruckHeight()) + "\n" + String.format("%.2f", TipCart.getTruckWeight()) + "\n" + String.format("%.2f", TipCart.getTruckCapacity()) + "\n";
 
     }
 
-    public String showRoutes(int rN) {
 
-
-        return AvailableRoutes.get(rN).routeSource + " " + AvailableRoutes.get(rN).routeDestination;
-    }
-
-
-    public String ShowRoutesInfo(int rIN) {
-        return "Length: " + AvailableRoutes.get(rIN).routeLength + "km     " +
-                "Capacity: " + AvailableRoutes.get(rIN).routeCapacity + "l     " +
-                "Height: " + AvailableRoutes.get(rIN).routeHeight + "m     " +
-                "Width: " + AvailableRoutes.get(rIN).routeWidth + "m     " +
-                "Weight: " + AvailableRoutes.get(rIN).routeWeight + "t     " +
-                "Load Type: " + AvailableRoutes.get(rIN).routeLoadType;
-
-    }
-
-
-    public void Compare() {
+    void Compare() {
 
         if (equipTruckTilt.get(0).getTruckLoadType() == AvailableRoutes.get(0).getRouteLoadType() && equipTruckTilt.size() > 0) {
 
@@ -189,26 +138,6 @@ public class trucks_lists {
         }
     }
 
-
-    public truck PrepareTrucktoMainPanel(int NumOfTruck) {
-        return equipTruckTilt.get(NumOfTruck);
-    }
-
-    public void SelectedTruckTilt(){
-
-        activeTruckTilt.add(equipTruckTilt.get(0));
-        equipTruckTilt.remove(0);
-
-
-
-    }
-
-    public double SelectedRoute(int numOfRoute)
-    {
-
-        return AvailableRoutes.get(numOfRoute).getRouteLength();
-    }
-        //working setActiveTruck
 
 
     public List<com.stp94.truckforwarder.route> GetAvailableRoutes()
