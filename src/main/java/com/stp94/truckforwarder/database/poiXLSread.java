@@ -34,8 +34,7 @@ public class poiXLSread {
 
     public poiXLSread ()
     {
-        InitializeDatabase();
-        GetRoutefromFile();
+
 
     }
 
@@ -147,7 +146,7 @@ public class poiXLSread {
             e.printStackTrace();
         }
 
-        System.out.println(RouteDBinArray.get(46).getRouteLength()); // Pobieramy sobie RouteDestination z 50 pozycji :)
+        System.out.println(RouteDBinArray.size()); // Pobieramy sobie RouteDestination z 50 pozycji :)
 
 
 

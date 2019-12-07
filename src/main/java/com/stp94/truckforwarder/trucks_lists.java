@@ -93,6 +93,25 @@ public class trucks_lists {
         return AvailableRoutes.get(pos).routeCashReward;
     }
 
+    double GetWidth(int pos) {
+        return AvailableRoutes.get(pos).routeWidth;
+    }
+    double GetHeight(int pos) {
+        return AvailableRoutes.get(pos).routeHeight;
+    }
+    double GetWeight(int pos) {
+        return AvailableRoutes.get(pos).routeWeight;
+    }
+    double GetCapacity(int pos) {
+        return AvailableRoutes.get(pos).routeCapacity;
+    }
+    String GetLoadType(int pos) {
+        return AvailableRoutes.get(pos).routeLoadType;
+    }
+
+
+
+
 
     String showTiltInfo() {
 
@@ -130,9 +149,18 @@ public class trucks_lists {
     }
 
 
-    void Compare() {
+    void Compare(int NumOfElement) {
 
-        if (equipTruckTilt.get(0).getTruckLoadType() == AvailableRoutes.get(0).getRouteLoadType() && equipTruckTilt.size() > 0) {
+        if (    equipTruckTilt.get(0).getTruckHeight() >= AvailableRoutes.get(NumOfElement).getRouteHeight() && equipTruckTilt.size() > 0 &&
+                equipTruckTilt.get(0).getTruckWidth() >= AvailableRoutes.get(NumOfElement).getRouteWidth() &&
+                equipTruckTilt.get(0).getTruckWeight() >= AvailableRoutes.get(NumOfElement).routeWeight )
+
+
+
+
+
+
+                {
 
 
         }

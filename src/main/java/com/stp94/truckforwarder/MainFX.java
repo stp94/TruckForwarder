@@ -32,8 +32,8 @@ public class MainFX extends Application {
         //Parent root = FXMLLoader.load(getClass().getResource("/view/MainWindow.fxml"));
         //Scene scene = new Scene(root);
         primaryStage.setTitle("Spedytor");
-        primaryStage.setScene(new Scene(root, 1200, 800));
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setScene(new Scene(root, 1800, 800));
+        primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.getFullScreenExitHint();
         primaryStage.show();
 

@@ -27,6 +27,11 @@ public class truck {
 
     //getter
 
+
+
+
+
+
     public String getTruckName() {
         return truckName;
     }

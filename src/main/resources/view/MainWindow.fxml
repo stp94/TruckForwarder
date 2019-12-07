@@ -20,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane maxHeight="800.0" maxWidth="1200.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@layout.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stp94.truckforwarder.Controller">
+<BorderPane maxHeight="800.0" maxWidth="1800.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1800.0" stylesheets="@layout.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stp94.truckforwarder.Controller">
    <center>
       <TabPane cache="true" cacheHint="QUALITY" cacheShape="false" centerShape="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" scaleShape="false" style="-fx-background-color: #ADD8E6;" styleClass="tab" stylesheets="@layout.css" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="Infinity" BorderPane.alignment="CENTER">
         <tabs>
@@ -95,11 +95,11 @@
                                     <Label fx:id="TipCartLabelAmount" translateX="10.0" translateY="-30.0" />
                                  </children>
                               </TextFlow>
-                              <ScrollPane layoutX="536.0" layoutY="-1.0" prefHeight="595.0" prefWidth="667.0" style="-fx-background: #988c7a; -fx-border-radius: 10px;">
+                              <ScrollPane layoutX="536.0" layoutY="-1.0" prefHeight="595.0" prefWidth="1200.0" style="-fx-background: #988c7a; -fx-border-radius: 10px;">
                                  <content>
-                                    <VBox prefHeight="570.0" prefWidth="665.0">
+                                    <VBox prefHeight="570.0" prefWidth="1192.0">
                                        <children>
-                                          <HBox prefHeight="44.0" prefWidth="665.0" style="-fx-background-color: #3F3250;">
+                                          <HBox prefHeight="39.0" prefWidth="1057.0" style="-fx-background-color: #3F3250;">
                                              <children>
                                                 <Label fx:id="NumberOfTruckLabel" prefHeight="35.0" prefWidth="32.0" style="-fx-text-fill: white; -fx-font-size: 20;" text="Nr" translateX="5.0">
                                                    <opaqueInsets>
@@ -109,7 +109,7 @@
                                                 <Label fx:id="DestinationLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="Trasa" translateX="90.0" />
                                                 <Label fx:id="LengthLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="km" translateX="200.0" />
                                                 <Label fx:id="CashRewardLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="Cash" translateX="260.0" />
-                                                <Label style="-fx-text-fill: white; -fx-font-size: 24;" text="Position" translateX="290.0" />
+                                                <Label style="-fx-text-fill: white; -fx-font-size: 24;" text="Position" translateX="300.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="10.0" prefHeight="59.0" prefWidth="665.0">
@@ -262,16 +262,21 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="209.0" prefWidth="600.0" style="-fx-background-color: #C0B3A0;">
                      <children>
-                        <TableView fx:id="RoutesTable" prefHeight="600.0" prefWidth="1000.0">
+                        <TableView fx:id="RoutesTable" prefHeight="600.0" prefWidth="1540.0">
                            <columns>
                               <TableColumn fx:id="SourceColumn" prefWidth="203.0" style="-fx-size: 28px; -fx-font-size: 24px;" styleClass="TableColumn" text="Source" />
                               <TableColumn fx:id="DestinationColumn" prefWidth="225.0" styleClass="TableColumn" text="Destination" />
                               <TableColumn fx:id="LengthColumn" prefWidth="179.0" styleClass="TableColumn" text="Length(km)" />
                               <TableColumn fx:id="CashRewardColumn" prefWidth="212.0" styleClass="TableColumn" text="Cash Reward($)" />
                               <TableColumn fx:id="CategoryColumn" minWidth="0.0" prefWidth="180.0" styleClass="TableColumn" text="Category" />
+                              <TableColumn fx:id="WidthColumn" minWidth="0.0" prefWidth="115.0" styleClass="TableColumn" text="Width" />
+                              <TableColumn fx:id="HeightColumn" minWidth="0.0" prefWidth="128.0" styleClass="TableColumn" text="Height" />
+                              <TableColumn fx:id="WeightColumn" minWidth="0.0" prefWidth="122.0" styleClass="TableColumn" text="Weight" />
+                              <TableColumn fx:id="CapacityColumn" minWidth="0.0" prefWidth="129.0" styleClass="TableColumn" text="Capacity" />
+                              <TableColumn fx:id="LoadTypeColumn" minWidth="0.0" prefWidth="45.0" styleClass="TableColumn" text="L" />
                            </columns>
                         </TableView>
-                        <VBox layoutX="1000.0" layoutY="36.0" prefHeight="546.0" prefWidth="198.0">
+                        <VBox layoutX="1580.0" layoutY="36.0" prefHeight="546.0" prefWidth="198.0">
                            <children>
                               <ImageView fx:id="img_tilt_bought" fitHeight="80.0" fitWidth="200.0" onMouseClicked="#SelectRouteFromTableToTilt" pickOnBounds="true" preserveRatio="true">
                                  <image>
