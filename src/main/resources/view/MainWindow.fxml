@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.TextFlow?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="800.0" maxWidth="1800.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1800.0" stylesheets="@layout.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stp94.truckforwarder.Controller">
+<BorderPane maxHeight="800.0" maxWidth="1800.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1800.0" stylesheets="@layout.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.stp94.truckforwarder.Controller">
    <center>
       <TabPane cache="true" cacheHint="QUALITY" cacheShape="false" centerShape="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" scaleShape="false" style="-fx-background-color: #ADD8E6;" styleClass="tab" stylesheets="@layout.css" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="Infinity" BorderPane.alignment="CENTER">
         <tabs>
@@ -40,7 +27,10 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <Label fx:id="TiltLabelAmount" translateX="30.0" translateY="-40.0" />
+                                    <Label fx:id="TiltLabelAmount" prefHeight="45.0" prefWidth="145.0" styleClass="NumberOfTrucks" translateX="30.0" translateY="-40.0">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font></Label>
                                  </children>
                               </TextFlow>
                               <TextFlow layoutX="20.0" layoutY="120.0" prefHeight="100.0" prefWidth="350.0">
@@ -50,7 +40,7 @@
                                           <Image url="@trackstandard.png" />
                                        </image>
                                     </ImageView>
-                                    <Label fx:id="StandardLabelAmount" translateX="20.0" translateY="-30.0" />
+                                    <Label fx:id="StandardLabelAmount" prefHeight="45.0" prefWidth="61.0" styleClass="NumberOfTrucks" translateX="20.0" translateY="-30.0" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -66,7 +56,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <Label fx:id="SetLabelAmount" onMouseDragEntered="#ShowSetPrice" onMouseDragExited="#HideTiltPrice" translateX="20.0" translateY="-20.0" />
+                                    <Label fx:id="SetLabelAmount" onMouseDragEntered="#ShowSetPrice" onMouseDragExited="#HideTiltPrice" prefHeight="45.0" prefWidth="23.0" styleClass="NumberOfTrucks" translateX="20.0" translateY="-20.0" />
                                  </children>
                               </TextFlow>
                               <TextFlow layoutX="10.0" layoutY="320.0" prefHeight="100.0" prefWidth="400.0">
@@ -79,7 +69,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <Label fx:id="TankLabelAmount" onMouseEntered="#ShowTankPrice" onMouseExited="#HideTiltPrice" translateX="10.0" translateY="-30.0" />
+                                    <Label fx:id="TankLabelAmount" onMouseEntered="#ShowTankPrice" onMouseExited="#HideTiltPrice" prefHeight="45.0" prefWidth="32.0" styleClass="NumberOfTrucks" translateX="10.0" translateY="-30.0" />
                                  </children>
                               </TextFlow>
                               <TextFlow layoutX="10.0" layoutY="420.0" prefHeight="100.0" prefWidth="400.0">
@@ -92,24 +82,25 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ImageView>
-                                    <Label fx:id="TipCartLabelAmount" translateX="10.0" translateY="-30.0" />
+                                    <Label fx:id="TipCartLabelAmount" prefHeight="45.0" prefWidth="33.0" styleClass="NumberOfTrucks" translateX="10.0" translateY="-30.0" />
                                  </children>
                               </TextFlow>
                               <ScrollPane layoutX="536.0" layoutY="-1.0" prefHeight="595.0" prefWidth="1200.0" style="-fx-background: #988c7a; -fx-border-radius: 10px;">
                                  <content>
                                     <VBox prefHeight="570.0" prefWidth="1192.0">
                                        <children>
-                                          <HBox prefHeight="39.0" prefWidth="1057.0" style="-fx-background-color: #3F3250;">
+                                          <HBox prefHeight="39.0" prefWidth="1060.0" style="-fx-background-color: #3F3250;">
                                              <children>
                                                 <Label fx:id="NumberOfTruckLabel" prefHeight="35.0" prefWidth="32.0" style="-fx-text-fill: white; -fx-font-size: 20;" text="Nr" translateX="5.0">
                                                    <opaqueInsets>
                                                       <Insets left="5.0" />
                                                    </opaqueInsets></Label>
-                                                <Label fx:id="SourceLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="Trasa" translateX="10.0" />
-                                                <Label fx:id="DestinationLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="Trasa" translateX="90.0" />
-                                                <Label fx:id="LengthLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="km" translateX="200.0" />
-                                                <Label fx:id="CashRewardLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="Cash" translateX="260.0" />
-                                                <Label style="-fx-text-fill: white; -fx-font-size: 24;" text="Position" translateX="300.0" />
+                                                <Label fx:id="SourceLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="Source" translateX="10.0" />
+                                                <Label fx:id="DestinationLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="Destination" translateX="70.0" />
+                                                <Label fx:id="LengthLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="km" translateX="120.0" />
+                                                <Label fx:id="CashRewardLabel" style="-fx-text-fill: white; -fx-font-size: 24;" text="Cash" translateX="170.0" />
+                                                <Label style="-fx-text-fill: white; -fx-font-size: 24;" text="Position" translateX="230.0" />
+                                                <Label style="-fx-text-fill: white; -fx-font-size: 24;" text="Identity" translateX="300.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="10.0" prefHeight="59.0" prefWidth="665.0">
@@ -123,6 +114,7 @@
                                                 <Label fx:id="LengthLabel1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent; -fx-progress-color: white;" />
+                                                <Label fx:id="IdentityLabel1" prefHeight="30.0" prefWidth="153.0" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="87.0" prefHeight="60.0" prefWidth="665.0">
@@ -136,6 +128,7 @@
                                                 <Label fx:id="LengthLabel2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck2" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel2" prefWidth="153.0" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="187.0" prefHeight="54.0" prefWidth="665.0">
@@ -149,6 +142,7 @@
                                                 <Label fx:id="LengthLabel3" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel3" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck3" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel3" prefHeight="30.0" prefWidth="153.0" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="173.0" prefHeight="54.0" prefWidth="665.0">
@@ -163,6 +157,7 @@
                                                 <Label fx:id="LengthLabel4" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel4" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck4" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel4" prefWidth="153.0" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="227.0" prefHeight="54.0" prefWidth="665.0">
@@ -177,6 +172,7 @@
                                                 <Label fx:id="LengthLabel5" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel5" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck5" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel5" prefWidth="153.0" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="281.0" prefHeight="54.0" prefWidth="665.0">
@@ -191,6 +187,7 @@
                                                 <Label fx:id="LengthLabel6" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel6" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck6" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel6" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="335.0" prefHeight="54.0" prefWidth="665.0">
@@ -205,6 +202,7 @@
                                                 <Label fx:id="LengthLabel7" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel7" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck7" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel7" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="389.0" prefHeight="54.0" prefWidth="665.0">
@@ -214,11 +212,12 @@
                                                       <Insets left="5.0" />
                                                    </padding>
                                                 </Label>
-                                                <Label fx:id="SourceLabe8" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" />
+                                                <Label fx:id="SourceLabel8" minWidth="-Infinity" prefHeight="30.0" prefWidth="135.0" style="-fx-font-size: 20px;" styleClass="city" />
                                                 <Label fx:id="DestinationLabel8" prefHeight="30.0" prefWidth="169.0" style="-fx-font-size: 20px;" styleClass="city" />
                                                 <Label fx:id="LengthLabel8" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel8" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck8" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel8" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="443.0" prefHeight="54.0" prefWidth="665.0">
@@ -233,6 +232,7 @@
                                                 <Label fx:id="LengthLabel9" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel9" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck9" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel9" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                           <HBox layoutX="10.0" layoutY="497.0" prefHeight="54.0" prefWidth="665.0">
@@ -247,6 +247,7 @@
                                                 <Label fx:id="LengthLabel10" prefHeight="30.0" prefWidth="85.0" style="-fx-font-size: 20px;" styleClass="distance" />
                                                 <Label fx:id="CashRewardLabel10" prefHeight="30.0" prefWidth="90.0" style="-fx-font-size: 20px;" styleClass="reward" />
                                                 <ProgressBar fx:id="ProgressBarTruck10" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="130.0" progress="0.0" style="-fx-control-inner-background: transparent;" />
+                                                <Label fx:id="IdentityLabel10" style="-fx-font-size: 20px;" translateX="45.0" />
                                              </children>
                                           </HBox>
                                        </children>
@@ -264,16 +265,16 @@
                      <children>
                         <TableView fx:id="RoutesTable" prefHeight="600.0" prefWidth="1540.0">
                            <columns>
-                              <TableColumn fx:id="SourceColumn" prefWidth="203.0" style="-fx-size: 28px; -fx-font-size: 24px;" styleClass="TableColumn" text="Source" />
-                              <TableColumn fx:id="DestinationColumn" prefWidth="225.0" styleClass="TableColumn" text="Destination" />
-                              <TableColumn fx:id="LengthColumn" prefWidth="179.0" styleClass="TableColumn" text="Length(km)" />
-                              <TableColumn fx:id="CashRewardColumn" prefWidth="212.0" styleClass="TableColumn" text="Cash Reward($)" />
-                              <TableColumn fx:id="CategoryColumn" minWidth="0.0" prefWidth="180.0" styleClass="TableColumn" text="Category" />
-                              <TableColumn fx:id="WidthColumn" minWidth="0.0" prefWidth="115.0" styleClass="TableColumn" text="Width" />
-                              <TableColumn fx:id="HeightColumn" minWidth="0.0" prefWidth="128.0" styleClass="TableColumn" text="Height" />
-                              <TableColumn fx:id="WeightColumn" minWidth="0.0" prefWidth="122.0" styleClass="TableColumn" text="Weight" />
-                              <TableColumn fx:id="CapacityColumn" minWidth="0.0" prefWidth="129.0" styleClass="TableColumn" text="Capacity" />
-                              <TableColumn fx:id="LoadTypeColumn" minWidth="0.0" prefWidth="45.0" styleClass="TableColumn" text="L" />
+                              <TableColumn fx:id="SourceColumn" editable="false" prefWidth="203.0" resizable="false" sortable="false" style="-fx-size: 28px; -fx-font-size: 24px;" styleClass="TableColumn" text="Source" />
+                              <TableColumn fx:id="DestinationColumn" editable="false" prefWidth="225.0" resizable="false" sortable="false" styleClass="TableColumn" text="Destination" />
+                              <TableColumn fx:id="LengthColumn" editable="false" prefWidth="179.0" resizable="false" sortable="false" styleClass="TableColumn" text="Length(km)" />
+                              <TableColumn fx:id="CashRewardColumn" editable="false" prefWidth="212.0" resizable="false" sortable="false" styleClass="TableColumn" text="Cash Reward($)" />
+                              <TableColumn fx:id="CategoryColumn" editable="false" minWidth="0.0" prefWidth="180.0" resizable="false" sortable="false" styleClass="TableColumn" text="Category" />
+                              <TableColumn fx:id="WidthColumn" editable="false" minWidth="0.0" prefWidth="115.0" resizable="false" sortable="false" styleClass="TableColumn" text="Width" />
+                              <TableColumn fx:id="HeightColumn" editable="false" minWidth="0.0" prefWidth="128.0" resizable="false" sortable="false" styleClass="TableColumn" text="Height" />
+                              <TableColumn fx:id="WeightColumn" editable="false" minWidth="0.0" prefWidth="122.0" resizable="false" sortable="false" styleClass="TableColumn" text="Weight" />
+                              <TableColumn fx:id="CapacityColumn" editable="false" minWidth="0.0" prefWidth="129.0" resizable="false" sortable="false" styleClass="TableColumn" text="Capacity" />
+                              <TableColumn fx:id="LoadTypeColumn" editable="false" minWidth="0.0" prefWidth="45.0" resizable="false" sortable="false" styleClass="TableColumn" text="L" />
                            </columns>
                         </TableView>
                         <VBox layoutX="1580.0" layoutY="36.0" prefHeight="546.0" prefWidth="198.0">
@@ -331,6 +332,9 @@
                                  </cursor>
                               </ImageView>
                            </children>
+                           <padding>
+                              <Insets top="25.0" />
+                           </padding>
                         </VBox>
                      </children>
                   </AnchorPane>
@@ -340,8 +344,11 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #C0B3A0;">
                      <children>
-                        <TextArea fx:id="ShowTruckDetailsInfo" editable="false" layoutX="900.0" layoutY="10.0" prefHeight="420.0" prefWidth="290.0" styleClass="TruckInfo" />
-                        <TextArea fx:id="ShowTruckLabels" editable="false" layoutX="676.0" layoutY="10.0" prefHeight="485.0" prefWidth="217.0" style="-fx-font-size: 30px;" styleClass="TruckInfoLabels" text="Name: &#10;Load Type: &#10;Length: &#10;Width: &#10;Height: &#10;Weight: &#10;Capacity:" wrapText="true" />
+                        <TextArea fx:id="ShowTruckDetailsInfo" editable="false" layoutX="978.0" layoutY="3.0" prefHeight="605.0" prefWidth="261.0" styleClass="TruckInfo" />
+                        <TextArea fx:id="ShowTruckLabels" editable="false" layoutX="752.0" layoutY="3.0" prefHeight="604.0" prefWidth="213.0" style="-fx-font-size: 30px;" styleClass="TruckInfoLabels" text="Name: &#10;&#10;Load Type: &#10;&#10;Length: &#10;&#10;Width: &#10;&#10;Height: &#10;&#10;Weight: &#10;&#10;Capacity:" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font></TextArea>
                         <Button fx:id="BuyTilt" layoutX="350.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#BuyTiltTruck" styleClass="BuyBtn" text="Buy">
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -440,33 +447,35 @@
                      <children>
                         <VBox layoutY="83.0" prefHeight="380.0" prefWidth="351.0" style="-fx-background-color: #98b0a8;" styleClass="creditVBOX" translateX="20.0">
                            <children>
-                              <Button fx:id="Get30kCredit" mnemonicParsing="false" onMouseClicked="#GetCredit" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #b5aa99;" styleClass="creditbutton" text="\$15 000" translateX="50.0" translateY="10.0">
+                              <Button mnemonicParsing="false" onMouseClicked="#GetCredit15k" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #b5aa99;" styleClass="creditbutton" text="Niedostepne" translateX="50.0" translateY="10.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
+                              <TextField disable="true" editable="false" prefHeight="186.0" prefWidth="351.0" style="-fx-background-color: transparent;" styleClass="CreditInfo" translateY="50.0" />
                            </children>
                         </VBox>
                         <VBox layoutX="425.0" layoutY="83.0" prefHeight="380.0" prefWidth="351.0" style="-fx-background-color: #98b0a8;" styleClass="creditVBOX">
                            <children>
-                              <Button fx:id="Get30kCredit1" mnemonicParsing="false" onMouseClicked="#GetCredit" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #b5aa99;" styleClass="creditbutton" text="\$30 000" translateX="50.0" translateY="10.0">
+                              <Button fx:id="Get30kCredit1" mnemonicParsing="false" onMouseClicked="#GetCredit30k" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #b5aa99;" styleClass="creditbutton" text="Niedostepne" translateX="50.0" translateY="10.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
+                              <TextField style="-fx-background-color: transparent; -fx-text-fill: black;" styleClass="CreditInfo" translateY="120.0" />
                            </children>
                         </VBox>
                         <VBox layoutX="849.0" layoutY="83.0" prefHeight="380.0" prefWidth="351.0" style="-fx-background-color: #98b0a8;" styleClass="creditVBOX" translateX="-20.0">
                            <children>
-                              <Button fx:id="Get30kCredit11" mnemonicParsing="false" onMouseClicked="#GetCredit" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #b5aa99;" styleClass="creditbutton" text="\$50 000" translateX="50.0" translateY="10.0">
+                              <Button fx:id="Get30kCredit11" mnemonicParsing="false" onMouseClicked="#GetCredit50k" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #b5aa99;" styleClass="creditbutton" text="Niedostepne" translateX="50.0" translateY="10.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
+                              <TextField promptText="65x - 1000$ / mn" style="-fx-background-color: transparent;" styleClass="CreditInfo" translateY="120.0" />
                            </children>
                         </VBox>
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Help" />
         </tabs>
          <cursor>
             <Cursor fx:constant="DEFAULT" />
@@ -512,24 +521,24 @@
             </VBox>
             <VBox prefHeight="113.0" prefWidth="382.0">
                <children>
-                  <Label fx:id="playerCash" prefHeight="30.0" prefWidth="100.0" text="Test" textFill="#eee8e8" translateY="3.0">
+                  <Label fx:id="playerCash" prefHeight="30.0" prefWidth="100.0" textFill="#eee8e8" translateY="3.0">
                      <font>
                         <Font name="Consolas" size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="playerRespect" text="test2" textFill="#f5eded" translateY="38.0">
+                  <Label fx:id="playerRespect" textFill="#f5eded" translateY="38.0">
                      <font>
                         <Font name="Consolas" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="playerName" text="test3" textFill="WHITE" translateY="39.0">
+                  <Label fx:id="playerName" textFill="WHITE" translateY="39.0">
                      <font>
                         <Font name="Consolas" size="15.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
-            <Label fx:id="MainTimeLabel" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="110.0" prefWidth="193.0" style="-fx-text-fill: white;" text="Label" textOverrun="CLIP" translateZ="40.0">
+            <Label fx:id="MainTimeLabel" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="110.0" prefWidth="193.0" style="-fx-text-fill: white;" textOverrun="CLIP" translateZ="40.0">
                <font>
                   <Font name="Consolas" size="36.0" />
                </font></Label>
@@ -545,27 +554,4 @@
             </Label>
          </children></HBox>
    </bottom>
-   <top>
-      <HBox alignment="TOP_RIGHT" prefHeight="26.0" prefWidth="1200.0" style="-fx-background-color: #22252c;" BorderPane.alignment="CENTER">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <children>
-            <ImageView fitHeight="10.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" translateX="-20.0" translateY="15.0">
-               <image>
-                  <Image url="@minimize.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="13.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" translateX="-7.0" translateY="5.0">
-               <image>
-                  <Image url="@maximize.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="13.0" fitWidth="28.0" onMouseClicked="#Exit" pickOnBounds="true" preserveRatio="true" translateY="5.0">
-               <image>
-                  <Image url="@exit.png" />
-               </image>
-            </ImageView>
-         </children></HBox>
-   </top>
 </BorderPane>

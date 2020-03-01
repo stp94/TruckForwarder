@@ -1,5 +1,7 @@
 package com.stp94.truckforwarder;
 
+import java.util.UUID;
+
 public class truck {
     private String truckName;
     private String truckLoadType;
@@ -9,10 +11,12 @@ public class truck {
     private double truckWeight;
     private double truckCapacity;
     private double truckPrice;
+    private int truckID;
+    boolean truckStatus; // false = free , true = busy
 
     // constructor
 
-    truck(String truckName, String truckLoadType, double truckLength, double truckWidth, double truckHeight, double truckWeight, double truckCapacity, double truckPrice) {
+    truck(String truckName, String truckLoadType, double truckLength, double truckWidth, double truckHeight, double truckWeight, double truckCapacity, double truckPrice, int truckID, boolean truckStatus) {
         this.truckName=truckName;
         this.setTruckLoadType(truckLoadType);
         this.setTruckLength(truckLength);
@@ -21,6 +25,8 @@ public class truck {
         this.setTruckWeight(truckWeight);
         this.setTruckCapacity(truckCapacity);
         this.setTruckPrice(truckPrice);
+        this.truckID=truckID;
+        this.truckStatus=truckStatus;
 
 
     }
@@ -64,6 +70,10 @@ public class truck {
         return truckPrice;
     }
 
+    int getTruckID() {return truckID;}
+
+    boolean getTruckStatus(){return truckStatus;}
+
     //setter
 
 
@@ -98,6 +108,10 @@ public class truck {
     private void setTruckPrice(double truckPrice) {
         this.truckPrice = truckPrice;
     }
+
+    private void setTruckID(int truckID) {this.truckID = truckID;}
+
+    private void setTruckStatus(boolean truckStatus){this.truckStatus = truckStatus;}
 }
 
 

@@ -14,11 +14,19 @@ import java.util.List;
 
 public class trucks_lists {
 
-    private truck Tilt = new truck("Tilt", "bs", 7.40, 2.45, 3, 5, 12, 10000);
-    private truck Standard = new truck("Standard", "b", 13.6, 2.48, 2.8, 24, 33, 35000);
-    private truck Set = new truck("Set", "b", 15.4, 2.48, 3, 24, 38, 75000);
-    private truck Tank = new truck("Tank", "u", 13.4, 2.55, 3.7, 34, 51, 45000);
-    private truck TipCart = new truck("Tip-cart", "uw", 13.6, 2.45, 2.6, 25, 33, 45000);
+    private int TiltID = 1;
+    private int StandardID =1;
+    private int SetID = 1;
+    private int TankID =1;
+    private int TipCartID = 1;
+
+    private truck Tilt = new truck("Tilt", "bs", 7.40, 2.45, 3, 5, 12, 10000,0,false);
+    private truck Standard = new truck("Standard", "b", 13.6, 2.48, 2.8, 24, 33, 35000,0,false);
+    private truck Set = new truck("Set", "b", 15.4, 2.48, 3, 24, 38, 75000,0,false);
+    private truck Tank = new truck("Tank", "u", 13.4, 2.55, 3.7, 34, 51, 45000,0,false);
+    private truck TipCart = new truck("Tip-cart", "uw", 13.6, 2.45, 2.6, 25, 33, 45000,0,false);
+
+    // /\ Truck objects with ID = 0 , Only to get Details, doesn't exist in Game.
 
     private poiXLSread RouteDatabase = new poiXLSread(); // Simple DataBase in XLS file
 
@@ -46,23 +54,37 @@ public class trucks_lists {
 
 
     void BuyTruckTilt() {
+
+        truck Tilt = new truck("Tilt", "bs", 7.40, 2.45, 3, 5, 12, 10000,TiltID,false);
         equipTruckTilt.add(Tilt);
+        TiltID++;
     }
 
     void BuyTruckStandard() {
+        truck Standard =  new truck("Standard", "b", 13.6, 2.48, 3, 24, 33, 35000, StandardID,false);
         equipTruckStandard.add(Standard);
+        StandardID++;
     }
 
     void BuyTruckSet() {
+        truck Set = new truck("Set", "b", 15.4, 2.48, 3, 24, 38, 75000,SetID,false);
         equipTruckSet.add(Set);
+        SetID++;
+
     }
 
     void BuyTruckTank() {
+        truck Tank = new truck("Tank", "u", 13.4, 2.55, 3.7, 34, 51, 45000,TankID,false);
         equipTruckTank.add(Tank);
+        TankID++;
     }
 
     void BuyTruckTipCart() {
+
+        truck TipCart = new truck("Tip-cart", "uw", 13.6, 2.45, 2.6, 25, 33, 45000,TipCartID,false);
         equipTruckTipCart.add(TipCart);
+        TipCartID++;
+
     }
 
     // /\ Simple methods which add trucks to equip
@@ -113,58 +135,41 @@ public class trucks_lists {
 
 
 
+
     String showTiltInfo() {
 
-        return "Plandeka " + "\nTyl" + "\nDlugosc: " + String.format("%.2f", Tilt.getTruckLength()) + "\n" + String.format("%.2f", Tilt.getTruckWidth()) + "\n"
-                + String.format("%.2f", Tilt.getTruckHeight()) + "\n" + String.format("%.2f", Tilt.getTruckWeight()) + "\n" + String.format("%.2f", Tilt.getTruckCapacity()) + "\n";
+        return "Plandeka " + "\n" + "\n" + "Tyl" + "\n" + "\n" + String.format("%.2f", Tilt.getTruckLength()) + "m" + "\n" + "\n" + String.format("%.2f", Tilt.getTruckWidth()) + "m" + "\n" + "\n" +
+                 String.format("%.2f", Tilt.getTruckHeight()) + "m" + "\n" + "\n" + String.format("%.2f", Tilt.getTruckWeight()) + "t" + "\n" + "\n" + String.format("%.2f", Tilt.getTruckCapacity()) +"m3";
 
     }
 
     String showStandardInfo() {
 
-        return "Standard " + "\nTyl, Bok" + "\n" + String.format("%.2f", Standard.getTruckLength()) + "\n" + String.format("%.2f", Standard.getTruckWidth()) + "\n"
-                + String.format("%.2f", Standard.getTruckHeight()) + "\n " + String.format("%.2f", Standard.getTruckWeight()) + "\n" + String.format("%.2f", Standard.getTruckCapacity()) + "\n";
+        return "Standard " + "\n" + "\n" + "Tyl, Bok" + "\n"  + "\n" +  String.format("%.2f", Standard.getTruckLength()) + "m" + "\n" + "\n" + String.format("%.2f", Standard.getTruckWidth()) + "m" + "\n" + "\n" +
+                 String.format("%.2f", Standard.getTruckHeight()) + "m" + "\n " + "\n" +  String.format("%.2f", Standard.getTruckWeight()) + "t" + "\n" + "\n" + String.format("%.2f", Standard.getTruckCapacity()) + "m3";
 
     }
 
     String showSetInfo() {
 
-        return "Zestaw " + "\nTyl" + "\n" + String.format("%.2f", Set.getTruckLength()) + "\n" + String.format("%.2f", Set.getTruckWidth()) + "\n"
-                + String.format("%.2f", Set.getTruckHeight()) + "\n" + String.format("%.2f", Set.getTruckWeight()) + "\n" + String.format("%.2f", Set.getTruckCapacity()) + "\n";
+        return "Zestaw " + "\n" + "\n" + "Tyl" + "\n"  + "\n" +  String.format("%.2f", Set.getTruckLength()) + "m" + "\n" + "\n" + String.format("%.2f", Set.getTruckWidth()) + "m" + "\n" + "\n" +
+                String.format("%.2f", Set.getTruckHeight()) + "m" + "\n " + "\n" +  String.format("%.2f", Set.getTruckWeight()) + "t" + "\n" + "\n" + String.format("%.2f", Set.getTruckCapacity()) + "m3";
 
     }
 
     String showTankInfo() {
 
-        return "Cysterna " + "\nGora" + "\n" + String.format("%.2f", Tank.getTruckLength()) + "\n" + String.format("%.2f", Tank.getTruckWidth()) + "\n"
-                + String.format("%.2f", Tank.getTruckHeight()) + "\n" + String.format("%.2f", Tank.getTruckWeight()) + "\n" + String.format("%.2f", Tank.getTruckCapacity()) + "\n";
+        return "Cysterna " + "\n" + "\n" + "Gora" + "\n"  + "\n" +  String.format("%.2f", Tank.getTruckLength()) + "m" + "\n" + "\n" + String.format("%.2f", Tank.getTruckWidth()) + "m" + "\n" + "\n" +
+                String.format("%.2f", Tank.getTruckHeight()) + "m" + "\n " + "\n" +  String.format("%.2f", Tank.getTruckWeight()) + "t" + "\n" + "\n" + String.format("%.2f", Tank.getTruckCapacity()) + "m3";
 
     }
 
     String showTipCartInfo() {
 
-        return "Wywrotka " + "\nGora" + "\n" + String.format("%.2f", TipCart.getTruckLength()) + "\n" + String.format("%.2f", TipCart.getTruckWidth()) + "\n"
-                + String.format("%.2f", TipCart.getTruckHeight()) + "\n" + String.format("%.2f", TipCart.getTruckWeight()) + "\n" + String.format("%.2f", TipCart.getTruckCapacity()) + "\n";
-
+        return "Wywrotka " + "\n" + "\n" + "Gora" + "\n"  + "\n" +  String.format("%.2f", TipCart.getTruckLength()) + "m" + "\n" + "\n" + String.format("%.2f", TipCart.getTruckWidth()) + "m" + "\n" + "\n" +
+                String.format("%.2f", TipCart.getTruckHeight()) + "m" + "\n " + "\n" +  String.format("%.2f", TipCart.getTruckWeight()) + "t" + "\n" + "\n" + String.format("%.2f", TipCart.getTruckCapacity()) + "m3";
     }
 
-
-    void Compare(int NumOfElement) {
-
-        if (    equipTruckTilt.get(0).getTruckHeight() >= AvailableRoutes.get(NumOfElement).getRouteHeight() && equipTruckTilt.size() > 0 &&
-                equipTruckTilt.get(0).getTruckWidth() >= AvailableRoutes.get(NumOfElement).getRouteWidth() &&
-                equipTruckTilt.get(0).getTruckWeight() >= AvailableRoutes.get(NumOfElement).routeWeight )
-
-
-
-
-
-
-                {
-
-
-        }
-    }
 
 
 

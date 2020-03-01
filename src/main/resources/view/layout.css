@@ -49,6 +49,11 @@
 
                 }
 
+              .NumberOfTrucks {
+                  -fx-font-size: 20px;
+                  -fx-text-fill: black;
+              }
+
     .TruckInfo
     {
         -fx-font-size: 30px;
@@ -64,7 +69,7 @@
 
                     .TruckInfoLabels
                     {
-                        -fx-font-size: 15px;
+                        -fx-font-size: 33px;
                         -fx-background-color: transparent;
                         -fx-font-weight: bold;
 
@@ -178,5 +183,10 @@
         -fx-font-size: 24px;
         -fx-size: 28px;
         -fx-border-color: #a49176;
+    }
+
+    .CreditInfo
+    {
+        -fx-text-fill: black;
     }
 

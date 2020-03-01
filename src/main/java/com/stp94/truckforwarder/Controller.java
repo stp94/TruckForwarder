@@ -31,7 +31,7 @@ import java.util.concurrent.Future;
 @Component
 public class Controller implements Initializable {
 
-    private player NewPlayer = new player("Piotr", 130000, 1000); // Create a default player
+    private player NewPlayer = new player("Player", 50000, 1000); // Create a default player
 
     private int TiltAmount, StandardAmount, SetAmount, TankAmount, TipCartAmount; // Amount of every truck type, in currently game
     private boolean creditstatus, initFlag; // flags
@@ -40,11 +40,28 @@ public class Controller implements Initializable {
     private long secondsPassed = 0;
     private long minutePassed = 0;
     private long hourPassed = 0;
-    private long TimeLimit;
 
-    private long secondsBar=0;
-    private long minuteBar=0;
-    private long hourBar=0;
+
+    boolean RunStatus0=true;
+    boolean RunStatus1=true;
+    boolean RunStatus2=true;
+    boolean RunStatus3=true;
+    boolean RunStatus4=true;
+    boolean RunStatus5=true;
+    boolean RunStatus6=true;
+    boolean RunStatus7=true;
+    boolean RunStatus8=true;
+    boolean RunStatus9=true;
+
+    boolean Credit15k=false;
+    boolean Credit30k=false;
+    boolean Credit50k=false;
+
+    private int CreditLimit=0;
+    private int CreditPart=0;
+    private boolean CreditStatus=false;
+
+
 
 
     private int mainElementOfTask=0;
@@ -145,12 +162,18 @@ public class Controller implements Initializable {
     private List<Label> DestinationLabels = new ArrayList<>();
     private List<Label> LengthLabels = new ArrayList<>();
     private List<Label> CashRewardLabels = new ArrayList<>();
+    private List<Label> IdentityLabels = new ArrayList<>();
 
     private List<Runnable> StartRouteList = new ArrayList<>();
 
     public Label DestinationLabel1 = new Label(); public Label DestinationLabel2 = new Label(); public Label DestinationLabel3 = new Label(); public Label DestinationLabel4 = new Label();
     public Label DestinationLabel5 = new Label(); public Label DestinationLabel6 = new Label(); public Label DestinationLabel7 = new Label(); public Label DestinationLabel8 = new Label();
     public Label DestinationLabel9 = new Label(); public Label DestinationLabel10 = new Label();
+
+    public Label IdentityLabel1 = new Label(); public Label IdentityLabel2 = new Label(); public Label IdentityLabel3 = new Label();
+    public Label IdentityLabel4 = new Label(); public Label IdentityLabel5 = new Label(); public Label IdentityLabel6 = new Label();
+    public Label IdentityLabel7 = new Label(); public Label IdentityLabel8 = new Label(); public Label IdentityLabel9 = new Label();
+    public Label IdentityLabel10 = new Label();
 
 
 
@@ -210,15 +233,22 @@ public class Controller implements Initializable {
                         {
                             minutePassed++;
                             secondsPassed = 0;
+
                         }
 
                         if (minutePassed == 60)
                         {
                             hourPassed++;
                             minutePassed = 0;
+
                         }
 
                     Platform.runLater(() -> MainTimeLabel.setText(String.format("%d", minutePassed)+ ":"+ String.format("%d", secondsPassed)));
+                    CheckRespectStatus();
+
+                    Platform.runLater(() -> playerRespect.setText(String.format("%s",NewPlayer.getPlayer_Respect())));
+                    Platform.runLater(() -> playerCash.setText(String.format("%s",NewPlayer.getPlayer_Cash())));
+
                 }
             };      myTimer.scheduleAtFixedRate(task, 1000, 1000);
         }; // Main Clock of Game
@@ -228,17 +258,17 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
 
                                         @Override
                                         public void run()
                                         {
-
-
-                                            {
+                                            {             RunStatus0=true;
                                                           Bars.get(0).setProgress(0);
                                                           progressPercent=0;
                                                           FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                           DestinationRoute0=Library.GetDestination(FocusedIndexInTask);
+                                                          TruckInTask=TruckType;
 
                                                           Timer routeTimer = new Timer();
                                                           TimerTask routeTask = new TimerTask()
@@ -246,39 +276,24 @@ public class Controller implements Initializable {
                                                               @Override
                                                                   public void run()
                                                                   {
-
-
-                                                                      progressPercent++;
-
-
+                                                                      progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                                               Platform.runLater(() ->
-                                                                                     Bars.get(0).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
-
+                                                                                     Bars.get(0).setProgress(progressPercent));
                                                                           if (Bars.get(0).getProgress() > 1)
                                                                           {
                                                                               NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                                              Platform.runLater(() ->
-                                                                                      playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
-
+                                                                              Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                                               routeTimer.cancel();
-                                                                              CheckTypeofTruckInTasks();
+                                                                              CheckTypeofTruckInTasks(TruckInTask);
+                                                                              TableOfTasks[0]=false;
+                                                                              RunStatus0=false;
 
 
 
-
-
-                                                                             TableOfTasks[0]=false;
-
-
-
-
+                                                                              NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                                               Thread.currentThread().interrupt();
                                                                               Thread.currentThread().stop();
+
                                                                           }
                                                                   }
                                                           };
@@ -292,16 +307,16 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
-
-
-                                            {
+                                            {   RunStatus1=true;
                                                 Bars.get(1).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute1=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -309,33 +324,20 @@ public class Controller implements Initializable {
                                                     @Override
                                                     public void run()
                                                     {
-
-
-                                                        progressPercent++;
-
-
+                                                       progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                         Platform.runLater(() ->
-                                                                Bars.get(1).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
-
+                                                                Bars.get(1).setProgress(progressPercent));
                                                         if (Bars.get(1).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-
-                                                            CheckTypeofTruckInTasks();
-
+                                                            CheckTypeofTruckInTasks(TruckInTask);
                                                             TableOfTasks[1]=false;
+                                                            RunStatus1=false;
 
 
-
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -351,16 +353,17 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
-
-
                                             {
+                                                RunStatus2=true;
                                                 Bars.get(2).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute2=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -368,30 +371,19 @@ public class Controller implements Initializable {
                                                     @Override
                                                     public void run()
                                                     {
-
-
-                                                        progressPercent++;
-
-
+                                                        progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                         Platform.runLater(() ->
-                                                                Bars.get(2).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
-
+                                                                Bars.get(2).setProgress(progressPercent));
                                                         if (Bars.get(2).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-                                                            CheckTypeofTruckInTasks();
+                                                            CheckTypeofTruckInTasks(TruckInTask);
 
                                                             TableOfTasks[2]=false;
-
+                                                            RunStatus2=false;
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -407,16 +399,17 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
-
-
                                             {
+                                                RunStatus3=true;
                                                 Bars.get(3).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute3=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -424,31 +417,19 @@ public class Controller implements Initializable {
                                                     @Override
                                                     public void run()
                                                     {
-
-
-                                                        progressPercent++;
-
-
+                                                        progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                         Platform.runLater(() ->
-                                                                Bars.get(3).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
-
+                                                                Bars.get(3).setProgress(progressPercent));
                                                         if (Bars.get(3).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-                                                            CheckTypeofTruckInTasks();
+                                                            CheckTypeofTruckInTasks(TruckInTask);
 
                                                             TableOfTasks[3]=false;
-
-
+                                                            RunStatus3=false;
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -464,16 +445,17 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
-
-
                                             {
+                                                RunStatus4=true;
                                                 Bars.get(4).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute4=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -483,29 +465,19 @@ public class Controller implements Initializable {
                                                     {
 
 
-                                                        progressPercent++;
-
-
+                                                        progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                         Platform.runLater(() ->
-                                                                Bars.get(4).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
-
+                                                                Bars.get(4).setProgress(progressPercent));
                                                         if (Bars.get(4).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-                                                            CheckTypeofTruckInTasks();
+                                                            CheckTypeofTruckInTasks(TruckInTask);
 
                                                             TableOfTasks[4]=false;
-
-
+                                                            RunStatus4=false;
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -521,16 +493,17 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
-
-
                                             {
+                                                RunStatus5=true;
                                                 Bars.get(5).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute5=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -540,28 +513,19 @@ public class Controller implements Initializable {
                                                     {
 
 
-                                                        progressPercent++;
-
-
+                                                        progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                         Platform.runLater(() ->
-                                                                Bars.get(5).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
-
+                                                                Bars.get(5).setProgress(progressPercent));
                                                         if (Bars.get(5).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-                                                            CheckTypeofTruckInTasks();
+                                                            CheckTypeofTruckInTasks(TruckInTask);
 
                                                             TableOfTasks[5]=false;
-
+                                                            RunStatus5=false;
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -577,16 +541,18 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
-
-
                                             {
+                                                RunStatus6=true;
                                                 Bars.get(6).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute6=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
+
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -595,29 +561,20 @@ public class Controller implements Initializable {
                                                     public void run()
                                                     {
 
-
-                                                        progressPercent++;
-
-
+                                                        progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                         Platform.runLater(() ->
-                                                                Bars.get(6).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
+                                                                Bars.get(6).setProgress(progressPercent));
 
                                                         if (Bars.get(6).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-                                                            CheckTypeofTruckInTasks();
+                                                            CheckTypeofTruckInTasks(TruckInTask);
 
                                                             TableOfTasks[6]=false;
-
+                                                            RunStatus6=false;
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -633,16 +590,17 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
-
-
                                             {
+                                                RunStatus7=true;
                                                 Bars.get(7).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute7=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -650,31 +608,21 @@ public class Controller implements Initializable {
                                                     @Override
                                                     public void run()
                                                     {
-
-
-                                                        progressPercent++;
-
+                                                        progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
 
                                                         Platform.runLater(() ->
-                                                                Bars.get(7).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
+                                                                Bars.get(7).setProgress(progressPercent));
 
                                                         if (Bars.get(7).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-
-                                                            CheckTypeofTruckInTasks();
+                                                            CheckTypeofTruckInTasks(TruckInTask);
 
                                                             TableOfTasks[7]=false;
-
+                                                            RunStatus7=false;
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -690,16 +638,19 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
 
 
                                             {
+                                                RunStatus8=true;
                                                 Bars.get(8).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute8=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -709,28 +660,20 @@ public class Controller implements Initializable {
                                                     {
 
 
-                                                        progressPercent++;
-
-
+                                                        progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                         Platform.runLater(() ->
-                                                                Bars.get(8).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
+                                                                Bars.get(8).setProgress(progressPercent));
 
                                                         if (Bars.get(8).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-                                                            CheckTypeofTruckInTasks();
+                                                            CheckTypeofTruckInTasks(TruckInTask);
 
                                                             TableOfTasks[8]=false;
-
+                                                            RunStatus8=false;
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -746,16 +689,19 @@ public class Controller implements Initializable {
                                     {
                                         double progressPercent=0.0;
                                         int FocusedIndexInTask;
+                                        String TruckInTask;
                                         @Override
                                         public void run()
                                         {
 
 
                                             {
+                                                RunStatus9=true;
                                                 Bars.get(9).setProgress(0);
                                                 progressPercent=0;
                                                 FocusedIndexInTask=RoutesTable.getSelectionModel().getFocusedIndex();
                                                 DestinationRoute9=Library.GetDestination(FocusedIndexInTask);
+                                                TruckInTask=TruckType;
 
                                                 Timer routeTimer = new Timer();
                                                 TimerTask routeTask = new TimerTask()
@@ -764,29 +710,20 @@ public class Controller implements Initializable {
                                                     public void run()
                                                     {
 
-
-                                                        progressPercent++;
-
-
+                                                        progressPercent=progressPercent+0.01/ (Library.GetLength(FocusedIndexInTask) * 0.005);
                                                         Platform.runLater(() ->
-                                                                Bars.get(9).setProgress(progressPercent * 0.01 * Library.GetLength(FocusedIndexInTask) / 50));
-
-
-
-
+                                                                Bars.get(9).setProgress(progressPercent));
 
                                                         if (Bars.get(9).getProgress() > 1)
                                                         {
                                                             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+Library.GetReward(FocusedIndexInTask));
-
-                                                            Platform.runLater(() ->
-                                                                    playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
+                                                            Platform.runLater(() -> playerCash.setText(String.format("%.2f", NewPlayer.getPlayer_Cash())));
                                                             routeTimer.cancel();
-
-                                                            CheckTypeofTruckInTasks();
+                                                            CheckTypeofTruckInTasks(TruckInTask);
 
                                                             TableOfTasks[9]=false;
-
+                                                            RunStatus9=false;
+                                                            NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()+100);
                                                             Thread.currentThread().interrupt();
                                                             Thread.currentThread().stop();
                                                         }
@@ -798,6 +735,9 @@ public class Controller implements Initializable {
                                         }
                                     }; // end of StartRoute Runnable
     // /\ Runnable Tasks for Routes in Main Panel
+
+
+
 
 
 
@@ -817,6 +757,15 @@ public class Controller implements Initializable {
 
         }
 
+
+
+        private void ReleaseActiveTruck()
+        {
+
+
+
+
+        }
 
 
         private void CheckStatusOfTrucks() {
@@ -861,7 +810,12 @@ public class Controller implements Initializable {
     {
 
 
-        TiltLabelAmount.setText(String.format("%d", TiltAmount));
+        TiltLabelAmount.setText(String.format("%d", Library.equipTruckTilt.size()) );
+        StandardLabelAmount.setText(String.format("%d", Library.equipTruckStandard.size()) );
+        SetLabelAmount.setText(String.format("%d", Library.equipTruckSet.size()) );
+        TankLabelAmount.setText(String.format("%d", Library.equipTruckTank.size()) );
+        TipCartLabelAmount.setText(String.format("%d", Library.equipTruckTipCart.size()) );
+
 
 
         CheckStatusOfTrucks();
@@ -887,18 +841,45 @@ public class Controller implements Initializable {
     }
 
 
-    private void CheckTypeofTruckInTasks()
+
+    private void CheckRespectStatus()
     {
-        if (TruckType == "Tilt")
+        if(NewPlayer.getPlayer_Respect()<1)
+        {
+            Exit();
+        }
+
+        if (!RunStatus0 || !RunStatus1 || !RunStatus2 || !RunStatus3 || !RunStatus4 || !RunStatus5 || !RunStatus6 || !RunStatus7 || !RunStatus8 || !RunStatus9 )
+        {NewPlayer.setPlayer_Respect(NewPlayer.getPlayer_Respect()-1);}
+    }
+
+
+    private void CheckTypeofTruckInTasks(String CurrentlyType)
+    {
+        if (CurrentlyType == "Tilt") {
+            Library.equipTruckTilt.add(Library.activeTruckTilt.get(0));
             Library.activeTruckTilt.remove(0);
-        else if (TruckType == "Standard")
+        }
+
+        else if (CurrentlyType == "Standard") {
+            Library.equipTruckStandard.add(Library.activeTruckStandard.get(0));
             Library.activeTruckStandard.remove(0);
-        else if (TruckType == "Set")
+        }
+        else if (CurrentlyType == "Set") {
+            Library.equipTruckSet.add(Library.activeTruckSet.get(0));
             Library.activeTruckSet.remove(0);
-        else if (TruckType == "Tank")
+
+        }
+        else if (CurrentlyType == "Tank") {
+            Library.equipTruckTank.add(Library.activeTruckTank.get(0));
             Library.activeTruckTank.remove(0);
-        else if (TruckType == "TipCart")
+
+        }
+        else if (CurrentlyType == "TipCart") {
+            Library.equipTruckTipCart.add(Library.activeTruckTipCart.get(0));
             Library.activeTruckTipCart.remove(0);
+
+        }
 
         TruckType="empty";
     }
@@ -975,7 +956,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTiltTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 10000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought");
             Library.BuyTruckTilt();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()-10000);
             TiltAmount++;
@@ -988,7 +969,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyStandardTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 35000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought");
             Library.BuyTruckStandard();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 35000);
             StandardAmount++;
@@ -1001,7 +982,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuySetTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 75000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought");
             Library.BuyTruckSet();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 75000);
             SetAmount++;
@@ -1014,7 +995,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTankTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 45000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought");
             Library.BuyTruckTank();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 45000);
             TankAmount++;
@@ -1027,7 +1008,7 @@ public class Controller implements Initializable {
     @FXML
     private void BuyTipCartTruck(MouseEvent event) {
         if (NewPlayer.getPlayer_Cash() >= 45000) {
-            InfoMessage.setText("Bought: ");
+            InfoMessage.setText("Bought");
             Library.BuyTruckTipCart();
             NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 45000);
             TipCartAmount++;
@@ -1039,47 +1020,143 @@ public class Controller implements Initializable {
 
     // /\BuyTrucksFunctions
 
+    private void CheckCreditStatus()
+    {
+        if (secondsPassed==60){
+
+                if(CreditStatus==true) {
+
+                while (CreditPart < CreditLimit) {
+                    NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() - 1000);
+
+                }
+            }
+            else if (CreditPart==CreditLimit){
+                CreditStatus=false;
+            }
+
+        }
+    }
+
     @FXML
-    private boolean GetCredit(MouseEvent event) {
-        if (creditstatus = true) {
-            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash() + 15000);
-            CheckStatusOfTrucks();
-            InfoMessage.setText("Otrzymales kredyt");
-            creditstatus = false;
+    private void GetCredit15k(MouseEvent event) {
 
-        } else
-            InfoMessage.setText("Niestety, nie mozesz otrzymac kredytu");
-
-
-        return creditstatus = false;
+            NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+15000);
+            CreditStatus=true;
+            CreditLimit=20;
 
     }
 
+    @FXML
+    private void GetCredit30k(MouseEvent event){
+        NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+30000);
+        CreditStatus=true;
+        CreditLimit=40;
+
+    }
+
+    @FXML
+    private void GetCredit50k(MouseEvent event){
+
+        NewPlayer.setPlayer_Cash(NewPlayer.getPlayer_Cash()+50000);
+        CreditStatus=true;
+        CreditLimit=65;
+    }
 
 
     @FXML
-    private boolean Compare()
+    private boolean CompareTilt() {
+
+        if (Library.equipTruckTilt.get(0).getTruckWidth() >= Library.GetWidth(RoutesTable.getSelectionModel().getFocusedIndex()) &&
+                Library.equipTruckTilt.get(0).getTruckHeight() >= Library.GetHeight(RoutesTable.getSelectionModel().getFocusedIndex()) &&
+                Library.equipTruckTilt.get(0).getTruckWeight() >= Library.GetWeight(RoutesTable.getSelectionModel().getFocusedIndex()) &&
+                Library.equipTruckTilt.get(0).getTruckCapacity() >= Library.GetCapacity(RoutesTable.getSelectionModel().getFocusedIndex())
+            //Library.equipTruckTilt.get(0).getTruckLoadType()==Library.GetLoadType(RoutesTable.getSelectionModel().getFocusedIndex())
+        ) {
+            return true;
+
+        } else
+            InfoMessage.setText("Check the size of cargo");
+        return false;
+        }
+
+
+        @FXML
+        private boolean CompareStandard()
+        {
+
+            if (    Library.equipTruckStandard.get(0).getTruckWidth() >= Library.GetWidth(RoutesTable.getSelectionModel().getFocusedIndex()) &&
+                    Library.equipTruckStandard.get(0).getTruckHeight() >= Library.GetHeight(RoutesTable.getSelectionModel().getFocusedIndex()) &&
+                    Library.equipTruckStandard.get(0).getTruckWeight() >= Library.GetWeight(RoutesTable.getSelectionModel().getFocusedIndex()) &&
+                    Library.equipTruckStandard.get(0).getTruckCapacity() >= Library.GetCapacity(RoutesTable.getSelectionModel().getFocusedIndex())
+                //Library.equipTruckTilt.get(0).getTruckLoadType()==Library.GetLoadType(RoutesTable.getSelectionModel().getFocusedIndex())
+            ) {
+                return true;
+
+            } else
+                InfoMessage.setText("Check the size of cargo");
+            return false;
+        }
+
+
+
+    @FXML
+    private boolean CompareSet()
     {
 
-        if (        Library.equipTruckTilt.get(0).getTruckWidth()>=Library.GetWidth(RoutesTable.getSelectionModel().getFocusedIndex())         &&
-                    Library.equipTruckTilt.get(0).getTruckHeight()>=Library.GetHeight(RoutesTable.getSelectionModel().getFocusedIndex())       &&
-                    Library.equipTruckTilt.get(0).getTruckWeight()>=Library.GetWeight(RoutesTable.getSelectionModel().getFocusedIndex())       &&
-                    Library.equipTruckTilt.get(0).getTruckCapacity()>=Library.GetCapacity(RoutesTable.getSelectionModel().getFocusedIndex())   &&
-                    Library.equipTruckTilt.get(0).getTruckLoadType()==Library.GetLoadType(RoutesTable.getSelectionModel().getFocusedIndex())
-           )
+        if (        Library.equipTruckSet.get(0).getTruckWidth()>=Library.GetWidth(RoutesTable.getSelectionModel().getFocusedIndex())         &&
+                Library.equipTruckSet.get(0).getTruckHeight()>=Library.GetHeight(RoutesTable.getSelectionModel().getFocusedIndex())       &&
+                Library.equipTruckSet.get(0).getTruckWeight()>=Library.GetWeight(RoutesTable.getSelectionModel().getFocusedIndex())       &&
+                Library.equipTruckSet.get(0).getTruckCapacity()>=Library.GetCapacity(RoutesTable.getSelectionModel().getFocusedIndex())
+            //Library.equipTruckTilt.get(0).getTruckLoadType()==Library.GetLoadType(RoutesTable.getSelectionModel().getFocusedIndex())
+        )
 
-                    {
-                       return true;
+        { return true;
 
-                    }
+        }
         else
             InfoMessage.setText("Check the size of cargo");
-                    return false;
+        return false;
 
+    }
 
+    @FXML
+    private boolean CompareTank()
+    {
 
+        if (        Library.equipTruckTank.get(0).getTruckWidth()>=Library.GetWidth(RoutesTable.getSelectionModel().getFocusedIndex())         &&
+                Library.equipTruckTank.get(0).getTruckHeight()>=Library.GetHeight(RoutesTable.getSelectionModel().getFocusedIndex())       &&
+                Library.equipTruckTank.get(0).getTruckWeight()>=Library.GetWeight(RoutesTable.getSelectionModel().getFocusedIndex())       &&
+                Library.equipTruckTank.get(0).getTruckCapacity()>=Library.GetCapacity(RoutesTable.getSelectionModel().getFocusedIndex())
+            //Library.equipTruckTilt.get(0).getTruckLoadType()==Library.GetLoadType(RoutesTable.getSelectionModel().getFocusedIndex())
+        )
 
+        { return true;
 
+        }
+        else
+            InfoMessage.setText("Check the size of cargo");
+        return false;
+
+    }
+
+    @FXML
+    private boolean CompareTipCart()
+    {
+
+        if (        Library.equipTruckTipCart.get(0).getTruckWidth()>=Library.GetWidth(RoutesTable.getSelectionModel().getFocusedIndex())         &&
+                Library.equipTruckTipCart.get(0).getTruckHeight()>=Library.GetHeight(RoutesTable.getSelectionModel().getFocusedIndex())       &&
+                Library.equipTruckTipCart.get(0).getTruckWeight()>=Library.GetWeight(RoutesTable.getSelectionModel().getFocusedIndex())       &&
+                Library.equipTruckTipCart.get(0).getTruckCapacity()>=Library.GetCapacity(RoutesTable.getSelectionModel().getFocusedIndex())
+            //Library.equipTruckTilt.get(0).getTruckLoadType()==Library.GetLoadType(RoutesTable.getSelectionModel().getFocusedIndex())
+        )
+
+        { return true;
+
+        }
+        else
+            InfoMessage.setText("Check the size of cargo");
+        return false;
 
     }
 
@@ -1140,16 +1217,24 @@ public class Controller implements Initializable {
         CashRewardLabels.add(CashRewardLabel9);
         CashRewardLabels.add(CashRewardLabel10);
 
+        IdentityLabels.add(IdentityLabel1);
+        IdentityLabels.add(IdentityLabel2);
+        IdentityLabels.add(IdentityLabel3);
+        IdentityLabels.add(IdentityLabel4);
+        IdentityLabels.add(IdentityLabel5);
+        IdentityLabels.add(IdentityLabel6);
+        IdentityLabels.add(IdentityLabel7);
+        IdentityLabels.add(IdentityLabel8);
+        IdentityLabels.add(IdentityLabel9);
+        IdentityLabels.add(IdentityLabel10);
+
 
 
     }
 
         private void GetStartRouteWithParameter(int elementOfRunnable)
         {
-
             StartRouteList.get(elementOfRunnable).run();
-
-
         }
 
 
@@ -1160,6 +1245,8 @@ public class Controller implements Initializable {
             DestinationLabels.get(elementOfBar).setText(Library.GetDestination(RoutesTable.getSelectionModel().getFocusedIndex()));
             LengthLabels.get(elementOfBar).setText(String.format("%d",Library.GetLength(RoutesTable.getSelectionModel().getFocusedIndex())  ) ) ;
             CashRewardLabels.get(elementOfBar).setText(String.format("%.2f",Library.GetReward(RoutesTable.getSelectionModel().getFocusedIndex())));
+            //IdentityLabels.get(elementOfBar).setText(String.format("d",Library.Ge));
+
 
 
         }
@@ -1179,7 +1266,6 @@ public class Controller implements Initializable {
             CapacityColumn.setCellValueFactory(new PropertyValueFactory<>("routeCapacity"));
 
             ObservableList<route> RoutesObservableList = FXCollections.observableArrayList(Library.GetAvailableRoutes());
-
             RoutesTable.setItems(RoutesObservableList);
 
 
@@ -1191,197 +1277,130 @@ public class Controller implements Initializable {
                 private void SelectRouteFromTableToTilt()
                 {
 
+                    if(Library.equipTruckTilt.size()>0)
+                    { CheckRespectStatus();
+                    CompareTilt(); }
 
 
-
-
-                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTilt.size() > 0) {
-
-
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTilt.size() > 0 && CompareTilt()) {
                         TruckType="Tilt";
-
-                        Library.activeTruckTilt.add(Library.equipTruckTilt.get(Library.equipTruckTilt.size() - 1));
-                        Library.equipTruckTilt.remove(Library.equipTruckTilt.size() - 1);
-
+                        Library.activeTruckTilt.add(Library.equipTruckTilt.get(0));
+                        String tiltID = String.format("%d", Library.equipTruckTilt.get(0).getTruckID());
+                        Library.equipTruckTilt.remove(0);
                         FindFreeTask();
-
-
-
-
-
                         PrepareActiveTaskInMainPanel(mainElementOfTask);
-
+                        IdentityLabels.get(mainElementOfTask).setText("Tilt");
 
                         CheckAmountsOfTrucks();
-
-
+                        System.out.println(RoutesTable.getSelectionModel().getFocusedIndex());
                         InfoMessage.setText("Truck started a route");
                         GetStartRouteWithParameter(mainElementOfTask);
-
-                        //mainElementOfTask++;
+                        mainElementOfTask++;
                     }
-
-
-
                     else
-                        InfoMessage.setText("First select a route or check tilt truck availability");
+                        InfoMessage.setText("Bad Route or Truck");
                 }
-
 
                 @FXML
                 private void SelectRouteFromTableToStandard()
                 {
 
-                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckStandard.size() > 0)
 
+                    if(Library.equipTruckStandard.size()>0)
+                    { CheckRespectStatus();
+                        CompareStandard(); }
 
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckStandard.size() > 0 && CompareStandard())
                         {
                             TruckType="Standard";
-
-
                             Library.activeTruckStandard.add(Library.equipTruckStandard.get(Library.equipTruckStandard.size()-1));
                             Library.equipTruckStandard.remove(0);
-
                             FindFreeTask();
+                            IdentityLabels.get(mainElementOfTask).setText("Standard");
                             PrepareActiveTaskInMainPanel(mainElementOfTask);
-
-
-
                             CheckAmountsOfTrucks();
-
-
                             InfoMessage.setText("Truck started a route");
                             GetStartRouteWithParameter(mainElementOfTask);
-
                             mainElementOfTask++;
-
-
                         }
                         else
                             InfoMessage.setText("First select a route or check standard truck availability");
-
-
-
                 }
-
                 @FXML
                 private void SelectRouteFromTableToSet()
                 {
+                    if(Library.equipTruckSet.size()>0)
+                    { CheckRespectStatus();
+                        CompareSet(); }
 
-                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckSet.size() > 0)
-
-
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckSet.size() > 0 && CompareSet())
                     {
                         TruckType="Set";
-
                         Library.activeTruckSet.add(Library.equipTruckSet.get(Library.equipTruckSet.size()-1));
                         Library.equipTruckSet.remove(0);
-
                         FindFreeTask();
+                        IdentityLabels.get(mainElementOfTask).setText("Set");
                         PrepareActiveTaskInMainPanel(mainElementOfTask);
-
-
-
                         CheckAmountsOfTrucks();
-
-
                         InfoMessage.setText("Truck started a route");
                         GetStartRouteWithParameter(mainElementOfTask);
-
                         mainElementOfTask++;
-
-
                     }
                     else
                         InfoMessage.setText("First select a route or check set truck availability");
-
-
-
                 }
-
-
                 @FXML
                 private void SelectRouteFromTableToTank()
                 {
 
-                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTank.size() > 0)
+                    if(Library.equipTruckTank.size()>0)
+                    { CheckRespectStatus();
+                        CompareTank(); }
 
-
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTank.size() > 0 && CompareTank())
                     {
-
                         TruckType="Tank";
-
                         Library.activeTruckTank.add(Library.equipTruckTank.get(Library.equipTruckTank.size()-1));
                         Library.equipTruckTank.remove(0);
 
                         FindFreeTask();
+                        IdentityLabels.get(mainElementOfTask).setText("Tank");
+
                         PrepareActiveTaskInMainPanel(mainElementOfTask);
-
-
-
                         CheckAmountsOfTrucks();
-
-
                         InfoMessage.setText("Truck started a route");
                         GetStartRouteWithParameter(mainElementOfTask);
-
                         mainElementOfTask++;
-
-
                     }
                     else
                         InfoMessage.setText("First select a route or check tank truck availability");
-
-
-
                 }
-
-
                 @FXML
                 private void SelectRouteFromTableToTipCart()
                 {
+                    if(Library.equipTruckTipCart.size()>0)
+                    { CheckRespectStatus();
+                        CompareTipCart(); }
 
-                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTipCart.size() > 0)
-
-
+                    if (RoutesTable.getSelectionModel().getFocusedIndex() != 0 && Library.equipTruckTipCart.size() > 0 && CompareTipCart())
                     {
 
                         TruckType="TipCart";
-
                         Library.activeTruckTipCart.add(Library.equipTruckTipCart.get(Library.equipTruckTipCart.size()-1));
                         Library.equipTruckTipCart.remove(0);
 
                         FindFreeTask();
+                        IdentityLabels.get(mainElementOfTask).setText("TipCart");
+
                         PrepareActiveTaskInMainPanel(mainElementOfTask);
-
-
-
                         CheckAmountsOfTrucks();
-
-
                         InfoMessage.setText("Truck started a route");
                         GetStartRouteWithParameter(mainElementOfTask);
-
                         mainElementOfTask++;
-
-
                     }
                     else
                         InfoMessage.setText("First select a route or check tank truck availability");
-
-
-
                 }
-
-
-
-
-
-
-
-
-
-
 
                                     @FXML
                                     private void Exit()

@@ -146,7 +146,6 @@ public class poiXLSread {
             e.printStackTrace();
         }
 
-        System.out.println(RouteDBinArray.size()); // Pobieramy sobie RouteDestination z 50 pozycji :)
 
 
 
